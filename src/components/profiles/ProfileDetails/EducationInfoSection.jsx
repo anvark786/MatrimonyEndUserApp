@@ -2,6 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSchool } from '@fortawesome/free-solid-svg-icons';
 import { Col,Row } from 'react-bootstrap';
+import capitalizeFirstLetter from '../../common/CommonFunctions';
 
 const EducationInfoSection = ({ data }) => {
     let education
@@ -24,7 +25,7 @@ const EducationInfoSection = ({ data }) => {
                     <div className="profile-field">
                         <span className="profile-field-label text-start">Education </span>
                         <span className="profile-field-label text-center">:</span>
-                        <span className="profile-field-value text-start text-muted">{education?.name.toUpperCase()}</span>
+                        <span className="profile-field-value text-start text-muted">{capitalizeFirstLetter(education?.name)}</span>
                     </div> 
                                      
                 </Col>
