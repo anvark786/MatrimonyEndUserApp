@@ -14,6 +14,7 @@ import Preferences from '../../pages/Profile/ProfileUpdate/Preferences';
 import withAuth from '../auth/AuthComponent';
 
 import ProfileDetails from '../../pages/Profile/ProfileDetails';
+import ManagePhotos from '../../pages/Profile/PhotoGallery/ManagePhotos';
 
 
 const MainRoutes = () => {
@@ -25,6 +26,8 @@ const MainRoutes = () => {
   const ProtectedAddress = withAuth(Address)
   const ProtectedPreferences = withAuth(Preferences)
   const ProtectedProfileDetails = withAuth(ProfileDetails)
+  const ProtectedManagePhotos= withAuth(ManagePhotos)
+
 
 
 
@@ -45,6 +48,8 @@ const MainRoutes = () => {
       <Route exact path="/profile/update/address" element={<ProtectedAddress/>}/>
       <Route exact path="/profile/update/preferences" element={<ProtectedPreferences/>}/>
       <Route exact path="/profile/details/:uuid" element={<ProtectedProfileDetails/>}/>
+      <Route exact path="/profile/manage-photos" element={<ProtectedManagePhotos/>}/>
+
 
     </Routes>
   );

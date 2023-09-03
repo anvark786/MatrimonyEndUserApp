@@ -15,7 +15,7 @@ const AuthService = {
       const response = await api.post('/register/', userData);
       return response.data;
     } catch (error) {
-      throw error.response.data;
+      throw error?.response?.data;
     }
   },
 

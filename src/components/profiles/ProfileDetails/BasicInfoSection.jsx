@@ -16,7 +16,7 @@ const BasicInfoSection = ({ data }) => {
                     <div className="profile-field">
                         <span className="profile-field-label text-start">Name</span>
                         <span className="profile-field-label text-center">:</span>
-                        <span className="profile-field-value text-start text-muted">{data?.user_data?.first_name}</span>
+                        <span className="profile-field-value text-start text-muted">{data?.user_data?.first_name+" "+data?.user_data?.last_name}</span>
                     </div>
                     <div className="profile-field">
                         <span className="profile-field-label text-start">Age</span>

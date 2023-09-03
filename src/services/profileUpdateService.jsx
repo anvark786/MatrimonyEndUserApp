@@ -94,6 +94,14 @@ const profileUpdateService = {
       throw error.response.data;
     }
   },
+  getPhotos: async (id) => {
+    try {
+      const response = await api.get(`/profiles/${id}/profile_photos/`);
+      return response.data;
+    } catch (error) {
+      throw error.response.data;
+    }
+  },
 
   // Add other authentication-related methods here
 };

@@ -56,3 +56,20 @@ body {
 }
 
 /* ... Rest of your styles ... */
+
+.manage-photos img {
+  width: 250px;
+  /* Increase the width of the profile image */
+  height: 250px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.add-icon-wrapper{
+  width: 30px;
+  height: 30px;
+  background-color: #dbd3d3;
+  text-align: center;
+  line-height: 30px;
+  border-radius: 50%;
+  margin-left: 80px
+}

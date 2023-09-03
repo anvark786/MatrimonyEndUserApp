@@ -25,8 +25,8 @@ const Register = () => {
         };
         localStorage.setItem('userData', JSON.stringify(userData));
         toast.success(response.message, {
-          onClose: () => {
-            navigate('/profile/update/basic-info'); // Redirect after the toast is closed
+          onOpen: () => {
+            navigate('/profile/update/basic-info');
           },
         });
       }

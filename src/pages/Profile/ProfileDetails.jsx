@@ -8,19 +8,13 @@ import Header from '../../components/common/Header';
 import { Container, Row, Col } from 'react-bootstrap';
 import ReligiousInfoSection from '../../components/profiles/ProfileDetails/ReligiousInfoSection';
 import EducationInfoSection from '../../components/profiles/ProfileDetails/EducationInfoSection';
-
-// import ReligiousInfoSection from './ProfileSections/ReligiousInfoSection';
-// import EducationInfoSection from './ProfileSections/EducationInfoSection';
-// import PhysicalAttributesSection from './ProfileSections/PhysicalAttributesSection';
-// import LocationInfoSection from './ProfileSections/LocationInfoSection';
-// import FamilyDetailsSection from './ProfileSections/FamilyDetailsSection';
-// import PartnerPreferencesSection from './ProfileSections/PartnerPreferencesSection';
+import OccupationInfoSection from '../../components/profiles/ProfileDetails/OccupationInfoSection';
+import FamilyInfoSection from '../../components/profiles/ProfileDetails/FamilyInfoSection';
+import PartnerPreferencesSection from '../../components/profiles/ProfileDetails/PartnerPreferencesSection';
 
 const ProfileDetails = ({ match }) => {
     const [ProfileDetails, setProfileDetailse] = useState({});
     const { uuid } = useParams();
-
-
 
     useEffect(() => {
         getProfileDetails();
@@ -29,31 +23,12 @@ const ProfileDetails = ({ match }) => {
         try {
             const response = await profileUpdateService.getProfileDetails(uuid);
             setProfileDetailse(response)
-            // Redirect or perform any other action after successful login
         } catch (error) {
             toast.error('Somthing went wrong')
         }
     };
-
     return (
-        // <div>
-        //     <Header />
-        //     <div className="main-content">
-        //         <Sidebar />
-        //         <div className="profile-detail">
-        //             <h1>Profile Details</h1>
-        //             <BasicInfoSection data={ProfileDetails} />
-        //             {/* <ReligiousInfoSection data={profileData.religiousInfo} />
-        //             <EducationInfoSection data={profileData.educationInfo} />
-        //             <PhysicalAttributesSection data={profileData.physicalAttributes} />
-        //             <LocationInfoSection data={profileData.locationInfo} />
-        //             <FamilyDetailsSection data={profileData.familyDetails} />
-        //             <PartnerPreferencesSection data={profileData.partnerPreferences} /> */}
-        //         </div>
-        //     </div>
-        // </div>
-
-
+       
         <div>
             <Header />
             <Container fluid>
@@ -67,14 +42,9 @@ const ProfileDetails = ({ match }) => {
                             <BasicInfoSection data={ProfileDetails} className="mb-2" />
                             <ReligiousInfoSection data={ProfileDetails?.religous_data} className="mb-2"  />
                             <EducationInfoSection data={ProfileDetails?.education} className="mb-2"  />
-
-
-                            {/* <ReligiousInfoSection data={profileData.religiousInfo} />
-            //             <EducationInfoSection data={profileData.educationInfo} />
-            //             <PhysicalAttributesSection data={profileData.physicalAttributes} />
-            //             <LocationInfoSection data={profileData.locationInfo} />
-            //             <FamilyDetailsSection data={profileData.familyDetails} />
-            //             <PartnerPreferencesSection data={profileData.partnerPreferences} /> */}
+                            <OccupationInfoSection data={ProfileDetails?.occupation} className="mb-2"  />
+                            <FamilyInfoSection data={ProfileDetails?.family_details} className="mb-2"  />
+                            <PartnerPreferencesSection data={ProfileDetails?.parnter_preference} className="mb-2"/> 
                         </div>
                     </Col>
                 </Row>

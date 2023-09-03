@@ -63,7 +63,7 @@ const navigate = useNavigate ();
             <FontAwesomeIcon icon={faUser} />
             <span>Edit My Profile</span>
           </a>
-          <a href="#">
+          <a href="/profile/manage-photos">
             <FontAwesomeIcon icon={faImages} />
             <span>Manage Photos</span>
           </a>
