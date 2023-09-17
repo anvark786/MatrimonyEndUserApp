@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import RegistrationForm from '../components/auth/RegistrationForm';
 import AuthService from '../services/authService';
-import AlertModal from '../components/common/AlertModal';
 import { useNavigate  } from 'react-router-dom';
 import { toast } from 'react-toastify';
 

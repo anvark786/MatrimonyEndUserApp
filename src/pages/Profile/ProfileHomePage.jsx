@@ -7,6 +7,7 @@ import '../../assets/styles/Style.css'; // Import your custom CSS for styling
 import ProfileList from '../../components/profiles/ProfileList';
 import profileUpdateService from '../../services/profileUpdateService';
 import { toast } from 'react-toastify';
+import Footer from '../../components/common/Footer';
 
 
 
@@ -18,31 +19,31 @@ const ProfileHomePage = () => {
   useEffect(() => {
     // Fetch profile data from your API
     getProfileData();
-    console.log('userData',userData);
+    console.log('userData', userData);
   }, [userData.profile_id]);
 
   const getProfileData = async () => {
     try {
-      const response = await profileUpdateService.getProfile(userData.profile_id);     
-      console.log('profile--data:', response);      
+      const response = await profileUpdateService.getProfile(userData.profile_id);
+      console.log('profile--data:', response);
       setProfileData(response)
     } catch (error) {
-        toast.error("somthing went wrong!,try again..");   
-    
-    } 
+      toast.error("somthing went wrong!,try again..");
+
+    }
   };
   return (
     <div>
       <Header />
       <Container fluid>
         <Row>
-          <Col md={3} style={{backgroundColor:"#f4f4f4"}}>
+          <Col md={3} style={{ backgroundColor: "#f4f4f4" }}>
             <Sidebar />
           </Col>
           <Col md={9} className="profile-content">
-            {profileData.length>1 ?(
+            {profileData.length > 1 ? (
               <div>
-                 <ProfileList profiles={profileData} />
+                <ProfileList profiles={profileData} />
               </div>
             ) : (
               <p>no profile data found...</p>
@@ -50,6 +51,7 @@ const ProfileHomePage = () => {
           </Col>
         </Row>
       </Container>
+      <Footer />
     </div>
   );
 };

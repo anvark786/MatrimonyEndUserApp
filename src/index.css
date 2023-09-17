@@ -3,13 +3,34 @@ body {
   margin: 0;
   font-family: 'Arial', sans-serif;
 }
+.footer {
+  background-color: #333333;
+  color: #ffffff;
+  padding: 20px 0;
+  text-align: center;
+}
 
+.footer p {
+  margin: 0;
+  font-size: 16px;
+}
+
+/* Copyright Text Styles */
+.footer p {
+  font-size: 14px;
+}
+.ms-300px{
+  margin-left: 280px !important;
+}
 
 .btn-bg-color{
   background-color: #dc0145 !important;
   border-color:#dc0145 !important;
 }
-
+.fz-13{
+  font-size: 13px;
+  color: #807878;
+}
 
 /* Global styles */
 .profile-detail {
@@ -73,3 +94,25 @@ body {
   border-radius: 50%;
   margin-left: 80px
 }
+.icon-span {
+  cursor: pointer;
+  font-size: 20px;
+  color: #333;
+  display: flex; /* Use flexbox to control alignment */
+  align-items: center; /* Vertically align icons */
+}
+.icon-span.delete-ic{
+  color: #dc0145;
+}
+.icon-span.edit-ic{
+  color: rgb(243 118 10);
+}
+.icon-span:hover {
+  color: #007bff;
+}
+
+.icon-span + .icon-span {
+  margin-left: 10px; /* Adjust the margin to control the gap between icons */
+}
+/* Add this CSS to your ManageSocial.css or a separate CSS file */
+

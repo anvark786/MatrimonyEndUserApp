@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../assets/styles/ProfileList.css'; // Import your custom CSS for styling
 import { Link } from 'react-router-dom';
-import capitalizeFirstLetter from '../common/CommonFunctions';
+import {capitalizeFirstLetter} from '../common/CommonFunctions';
 
 const ProfileList = ({ profiles }) => {
     const dummyPhotoURL = 'https://shreedestinations.com/wp-content/uploads/2018/08/dummy450x450.jpg'

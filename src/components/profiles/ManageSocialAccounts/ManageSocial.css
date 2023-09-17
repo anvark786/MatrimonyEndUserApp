@@ -1,0 +1,73 @@
+/* SocialMediaManagement.css */
+.social-management-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .add-link {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .platform-select {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .link-input {
+    flex: 2;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .add-button {
+    padding: 10px 20px;
+    background-color: #496849;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .social-links-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .social-link-item {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    margin-bottom: 10px;
+  }
+  
+  .social-link {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+  }
+  .social-link-item a{
+    margin-right: 15%;
+  }
+  .delete-button {
+    padding: 5px 10px;
+    background-color: #ff5252;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  

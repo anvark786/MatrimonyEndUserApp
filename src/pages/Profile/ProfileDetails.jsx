@@ -14,6 +14,7 @@ import EducationInfoSection from '../../components/profiles/ProfileDetails/Educa
 import OccupationInfoSection from '../../components/profiles/ProfileDetails/OccupationInfoSection';
 import FamilyInfoSection from '../../components/profiles/ProfileDetails/FamilyInfoSection';
 import PartnerPreferencesSection from '../../components/profiles/ProfileDetails/PartnerPreferencesSection';
+import SocialAccounts from '../../components/profiles/ProfileDetails/SocialAccounts';
 
 const ProfileDetails = ({ match }) => {
     const [ProfileDetails, setProfileDetailse] = useState({});
@@ -27,6 +28,7 @@ const ProfileDetails = ({ match }) => {
     const getProfileDetails = async () => {
         try {
             const response = await profileUpdateService.getProfileDetails(uuid);
+            console.log("resssssss", response);
             setProfileDetailse(response);
             setPhotos(response?.photos)
         } catch (error) {
@@ -35,7 +37,7 @@ const ProfileDetails = ({ match }) => {
     };
 
     // Configuration for the photo slider
-      const sliderSettings = {
+    const sliderSettings = {
         dots: true,
         infinite: true,
         speed: 500,
@@ -45,7 +47,7 @@ const ProfileDetails = ({ match }) => {
         centerPadding: '0',
         focusOnSelect: true,
         arrows: true,
-        
+
     };
 
     return (
@@ -62,24 +64,26 @@ const ProfileDetails = ({ match }) => {
                         <Row className='mb-4'>
                             <Col md={12}>
                                 <Slider {...sliderSettings} className="center-slider">
-                                    {photos && photos.map((item,ind) => {
+                                    {photos && photos.map((item, ind) => {
                                         return (
                                             <div key={ind}>
-                                                <img src={item?.image} alt={`Photo of ${ind}`}/>
+                                                <img src={item?.image} alt={`Photo of ${ind}`} />
                                             </div>
                                         )
                                     })}
                                 </Slider>
                             </Col>
                         </Row>
+                        
                         <div className="profile-detail">
-
+                            
                             <BasicInfoSection data={ProfileDetails} className="mb-2" />
                             <ReligiousInfoSection data={ProfileDetails?.religous_data} className="mb-2" />
                             <EducationInfoSection data={ProfileDetails?.education} className="mb-2" />
                             <OccupationInfoSection data={ProfileDetails?.occupation} className="mb-2" />
                             <FamilyInfoSection data={ProfileDetails?.family_details} className="mb-2" />
-                            <PartnerPreferencesSection data={ProfileDetails?.parnter_preference} className="mb-2" />
+                            <PartnerPreferencesSection data={ProfileDetails?.partner_preference} className="mb-2" />
+                            {ProfileDetails?.social_links&&<SocialAccounts data ={ProfileDetails?.social_links } is_Locked={ProfileDetails?.is_locked_social_accounts} className="" />}
                         </div>
                     </Col>
                 </Row>

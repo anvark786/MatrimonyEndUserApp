@@ -10,6 +10,7 @@ import {
   faMedal,
   faCode,
   faSignOutAlt,
+  faBars,
 } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 import { useNavigate  } from 'react-router-dom';
@@ -66,6 +67,10 @@ const navigate = useNavigate ();
           <a href="/profile/manage-photos">
             <FontAwesomeIcon icon={faImages} />
             <span>Manage Photos</span>
+          </a>
+          <a href="/profile/manage-social">
+            <FontAwesomeIcon icon={faBars} />
+            <span>Manage Social Accounts</span>
           </a>
         </div>
       </div>
