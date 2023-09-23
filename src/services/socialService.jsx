@@ -44,6 +44,24 @@ const socialService = {
         }
     },
 
+    sendSocialRequest: async (formData) => {
+        try {
+            const response = await api.post('/social-access-request/', formData);
+            return response.data;
+        } catch (error) {
+            throw error.response.data;
+
+        }
+    },
+    checkSocialRequest: async (pk) => {
+        try {
+            const response = await api.get('/profiles/' + pk + "/check_social_request/",);
+            return response.data;
+        } catch (error) {
+            throw error.response.data;
+        }
+    },
+
 };
 
 export default socialService;

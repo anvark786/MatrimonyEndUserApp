@@ -13,12 +13,9 @@ import {
   faBars,
 } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
-import { useNavigate  } from 'react-router-dom';
-
 
 
 const Sidebar = () => {
-const navigate = useNavigate ();
 
 
   useEffect(() => {
@@ -35,7 +32,7 @@ const navigate = useNavigate ();
 
   const logout = () => {
     localStorage.removeItem('userData');
-    navigate('/login')// Replace with your desired URL
+     window.location.href = '/profile';// Replace with your desired URL
   };
   const checkTokenExpiration = () => {
     const userData = JSON.parse(localStorage.getItem('userData'));
@@ -48,7 +45,7 @@ const navigate = useNavigate ();
         localStorage.removeItem('userData');
         toast.error("Session Expired,Please Login Again!.", {
           onOpen: () => {
-            navigate('/login'); // Redirect after the toast is closed
+             window.location.href = '/profile';; // Redirect after the toast is closed
           },
         });   
       }

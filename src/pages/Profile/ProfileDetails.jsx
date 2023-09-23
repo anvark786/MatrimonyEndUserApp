@@ -5,6 +5,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import BasicInfoSection from '../../components/profiles/ProfileDetails/BasicInfoSection';
 import { toast } from 'react-toastify';
 import profileUpdateService from '../../services/profileUpdateService';
+import socialService from '../../services/socialService';
 import { useParams } from 'react-router-dom';
 import Sidebar from '../../components/common/Sidebar';
 import Header from '../../components/common/Header';
@@ -20,10 +21,14 @@ const ProfileDetails = ({ match }) => {
     const [ProfileDetails, setProfileDetailse] = useState({});
     const [photos, setPhotos] = useState([]);
     const { uuid } = useParams();
+    const userData = JSON.parse(localStorage.getItem('userData'));
+    const [hasSubmittedRequest,setHasSubmittedRequest] = useState(false)
+    const [submittedRequest,setSubmittedRequest] = useState({})
 
     useEffect(() => {
         getProfileDetails();
-    }, [uuid]);
+        checkPendingSocialRequests();
+    }, [uuid,submittedRequest?.status]);
 
     const getProfileDetails = async () => {
         try {
@@ -35,6 +40,34 @@ const ProfileDetails = ({ match }) => {
             toast.error('Something went wrong');
         }
     };
+    const checkPendingSocialRequests = async () => {
+        try {
+            const response = await socialService.checkSocialRequest(userData.profile_id);
+            
+            setSubmittedRequest(response)
+            if(response?.id){
+                setHasSubmittedRequest(true)
+            }
+        } catch (error) {
+            toast.error('Something went wrong');
+        }
+    };
+    
+    const handleSubmitAccessRequest = async ()=>{
+        try {
+            const formData = new FormData();
+            formData.append("requester",userData.profile_id)
+            formData.append("profile_owner",ProfileDetails?.id)
+
+            const response = await socialService.sendSocialRequest(formData);
+            if(response){     
+                setHasSubmittedRequest(true)           
+                toast.success("Request was submitted successfully");
+              }
+        } catch (error) {
+            toast.error('Something went wrong');
+        }
+    }
 
     // Configuration for the photo slider
     const sliderSettings = {
@@ -83,7 +116,7 @@ const ProfileDetails = ({ match }) => {
                             <OccupationInfoSection data={ProfileDetails?.occupation} className="mb-2" />
                             <FamilyInfoSection data={ProfileDetails?.family_details} className="mb-2" />
                             <PartnerPreferencesSection data={ProfileDetails?.partner_preference} className="mb-2" />
-                            {ProfileDetails?.social_links&&<SocialAccounts data ={ProfileDetails?.social_links } is_Locked={ProfileDetails?.is_locked_social_accounts} className="" />}
+                            {ProfileDetails?.social_links&&<SocialAccounts data ={ProfileDetails?.social_links } is_Locked={ProfileDetails?.is_locked_social_accounts} hasSubmittedRequest={hasSubmittedRequest} submittedRequest={submittedRequest} handleSubmit={handleSubmitAccessRequest} className="" />}
                         </div>
                     </Col>
                 </Row>

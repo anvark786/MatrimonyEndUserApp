@@ -27,9 +27,9 @@ const navigate = useNavigate ();
       setResponse(response)
       if(response){
         toast.success(response.message, {
-          autoClose: 2000,
-          onOpen: () => {
-            navigate('/profile'); // Redirect after the toast is closed
+          autoClose: 1000,
+          onOpen: () => {           
+            window.location.href = '/profile';
           },
         });
       }
