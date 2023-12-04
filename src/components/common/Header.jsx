@@ -23,7 +23,7 @@ const Header = () => {
     <header className="header">
       <div className="container">
         <nav className="navbar navbar-expand-lg navbar-light">
-          <a className="navbar-brand" href="#">
+          <a className="navbar-brand" href="/profile">
             Shaddikarro
           </a>
           <button
@@ -40,7 +40,7 @@ const Header = () => {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ml-auto">
               <li className="nav-item active">
-                <a className="nav-link" href="#">Home</a>
+                <a className="nav-link" href="/profile">Home</a>
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="#">Search</a>

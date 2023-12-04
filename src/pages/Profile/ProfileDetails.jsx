@@ -28,7 +28,7 @@ const ProfileDetails = ({ match }) => {
     useEffect(() => {
         getProfileDetails();
         checkPendingSocialRequests();
-    }, [uuid,submittedRequest?.status]);
+    }, [uuid]);
 
     const getProfileDetails = async () => {
         try {

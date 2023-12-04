@@ -1,16 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faNetworkWired, faLock, faUnlock, faCheckCircle,faTimesCircle } from '@fortawesome/free-solid-svg-icons'; // Import the locked and unlock icons
 import { Button, Col, Row } from 'react-bootstrap';
 import { getPlatformIcon } from '../../common/CommonFunctions';
 
 const SocialAccounts = ({ data, is_Locked, hasSubmittedRequest, submittedRequest, handleSubmit }) => {
-  console.log("submittedRequest?.status",submittedRequest?.status)
+  
+  const [status, setStatus] = useState(submittedRequest?.status);
+  console.log("status",submittedRequest?.status)
+  useEffect(() => {
+    console.log('Status updated:', submittedRequest.status);
+    setStatus(submittedRequest?.status);
+  }, [submittedRequest?.status]);
+
   return (
     <div className="profile-section">
       <div className="profile-section-title">
         <h2>
           <FontAwesomeIcon icon={faNetworkWired} className="icon" /> Social Accounts
+        
         </h2>
       </div>
       <Row>
@@ -37,12 +45,12 @@ const SocialAccounts = ({ data, is_Locked, hasSubmittedRequest, submittedRequest
               <div className="col-md-6">
                 {hasSubmittedRequest ? (
                   <div className="d-flex align-items-center">
-                    {submittedRequest?.status === 'declined' ? (
+                    {status === 'declined' ? (
                       <FontAwesomeIcon icon={faTimesCircle} className="text-danger me-2" />
                     ) : (
                       <FontAwesomeIcon icon={faCheckCircle} className="text-success me-2" />
                     )}
-                    {submittedRequest?.status === 'declined' ? 'Access Request Rejected' : 'Access Request Submitted'}
+                    {status === 'declined' ? 'Access Request Rejected' : 'Access Request Submitted'}
                   </div>
                 ) : (
                   <Button variant="success" onClick={() => handleSubmit()}>
