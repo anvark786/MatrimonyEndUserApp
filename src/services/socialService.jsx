@@ -61,6 +61,14 @@ const socialService = {
             throw error.response.data;
         }
     },
+    received_social_requests: async (pk,limit,page) => {
+        try {
+            const response = await api.get('/profiles/' + pk + "/recived_social_request/"+"?limit="+limit+"&page="+page,);
+            return response.data;
+        } catch (error) {
+            throw error.response.data;
+        }
+    },
 
 };
 

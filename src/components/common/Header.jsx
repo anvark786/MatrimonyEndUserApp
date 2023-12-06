@@ -43,7 +43,7 @@ const Header = () => {
                 <a className="nav-link" href="/profile">Home</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">Search</a>
+                <a className="nav-link" href="/profile/handle-access-requests">Manage Social Requests</a>
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="#">Matches</a>

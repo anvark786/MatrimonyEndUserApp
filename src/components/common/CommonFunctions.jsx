@@ -36,3 +36,17 @@ export  function getPlatformIcon(platform) {
     }
 
   };
+
+  export function formatDateTimeToDateString(datetimeString) {
+    const datetimeObject = new Date(datetimeString);
+
+    // Extract date components
+    const day = datetimeObject.getDate().toString().padStart(2, '0');
+    const month = (datetimeObject.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+    const year = datetimeObject.getFullYear();
+
+    // Create a date string in the format "DD-MM-YYYY"
+    const dateString = `${day}-${month}-${year}`;
+
+    return dateString;
+}

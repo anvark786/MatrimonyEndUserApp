@@ -16,6 +16,7 @@ import withAuth from '../auth/AuthComponent';
 import ProfileDetails from '../../pages/Profile/ProfileDetails';
 import ManagePhotos from '../../pages/Profile/PhotoGallery/ManagePhotos';
 import SocialMediaManagement from '../../pages/Profile/ManageSocialAccounts/SocialMediaManagement';
+import SocialRequests from '../../pages/Profile/ManageSocialAccounts/SocialRequests';
 
 
 const MainRoutes = () => {
@@ -29,6 +30,8 @@ const MainRoutes = () => {
   const ProtectedProfileDetails = withAuth(ProfileDetails)
   const ProtectedManagePhotos= withAuth(ManagePhotos)
   const ProtectedSocialMediaManagement= withAuth(SocialMediaManagement)
+  const ProtectedSocialRequests= withAuth(SocialRequests)
+
 
 
 
@@ -53,6 +56,7 @@ const MainRoutes = () => {
       <Route exact path="/profile/details/:uuid" element={<ProtectedProfileDetails/>}/>
       <Route exact path="/profile/manage-photos" element={<ProtectedManagePhotos/>}/>
       <Route exact path="/profile/manage-social" element={<ProtectedSocialMediaManagement/>}/>
+      <Route exact path="/profile/handle-access-requests" element={<ProtectedSocialRequests/>}/>
 
 
 
