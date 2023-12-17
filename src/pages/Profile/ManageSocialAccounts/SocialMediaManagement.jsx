@@ -40,7 +40,7 @@ const SocialMediaManagement = () => {
 
       }
     } catch (error) {
-      toast.error("Error!.Somting wrong happend!.")
+      toast.error(error?.message)
     }
 
 

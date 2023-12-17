@@ -6,6 +6,7 @@ import '../../assets/styles/Style.css'
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faUser, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -23,9 +24,9 @@ const Header = () => {
     <header className="header">
       <div className="container">
         <nav className="navbar navbar-expand-lg navbar-light">
-          <a className="navbar-brand" href="/profile">
+          <Link className="navbar-brand" to="/profile">
             Shaddikarro
-          </a>
+          </Link>
           <button
             className="navbar-toggler"
             type="button"
@@ -40,48 +41,48 @@ const Header = () => {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ml-auto">
               <li className="nav-item active">
-                <a className="nav-link" href="/profile">Home</a>
+                <Link className="nav-link" to="/profile">Home</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/profile/handle-access-requests">Manage Social Requests</a>
+                <Link className="nav-link" to="#">Search</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">Matches</a>
+                <Link className="nav-link" to="#">Matches</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">Messages</a>
+                <Link className="nav-link" to="#">Messages</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">Upgrade</a>
+                <Link className="nav-link" to="#">Upgrade</Link>
               </li>
             </ul>
           </div>
 
           <div className="navbar-icons">
-            <a href="#" className="navbar-icon">
+            <Link to="#" className="navbar-icon">
               <FontAwesomeIcon icon={faBell} />
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              to="#"
               className="navbar-icon dropdown-toggle"
               onClick={handleDropdownToggle}
             >
               <FontAwesomeIcon icon={faUser} />
-            </a>
+            </Link>
             {showDropdown && (
               <div className="profile-dropdown">
                 <ul>
                   {/* <li>
-                    <a href="#">Profile</a>
+                    <Link to="#">Profile</Link>
                   </li>
                   <li>
-                    <a href="#">Settings</a>
+                    <Link to="#">Settings</Link>
                   </li> */}
                   <li>
-                    <a href="#" onClick={handleLogout}>
+                    <Link to="#" onClick={handleLogout}>
                       <FontAwesomeIcon icon={faSignOutAlt} />
                       Logout
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </div>

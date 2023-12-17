@@ -11,8 +11,10 @@ import {
   faCode,
   faSignOutAlt,
   faBars,
+  faEye,
 } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 
 const Sidebar = () => {
@@ -57,61 +59,65 @@ const Sidebar = () => {
       <div className="sidebar-card">
         <div className="sidebar-title">My Profile</div>
         <div className="sidebar-items">
-          <a href="#">
+          <Link to={""}>
             <FontAwesomeIcon icon={faUser} />
             <span>Edit My Profile</span>
-          </a>
-          <a href="/profile/manage-photos">
+          </Link>
+          <Link to="/profile/manage-photos">
             <FontAwesomeIcon icon={faImages} />
             <span>Manage Photos</span>
-          </a>
-          <a href="/profile/manage-social">
+          </Link>
+          <Link to="/profile/manage-social">
             <FontAwesomeIcon icon={faBars} />
             <span>Manage Social Accounts</span>
-          </a>
+          </Link>
+          <Link to="/profile/handle-access-requests">
+            <FontAwesomeIcon icon={faEye} />
+            <span>Manage Social Requests</span>
+          </Link>
         </div>
       </div>
       <div className="sidebar-card">
         <div className="sidebar-title">Account Settings</div>
         <div className="sidebar-items">
-          <a href="#">
+          <Link to={""}>
             <FontAwesomeIcon icon={faCog} />
             <span>SMS/Email Alerts</span>
-          </a>
+          </Link>
         </div>
         <div className="sidebar-items">
-          <a href="#">
+          <Link to={""}>
             <FontAwesomeIcon icon={faEyeSlash} />
             <span>Hide Profile</span>
-          </a>
-          <a href="#">
+          </Link>
+          <Link to={""}>
             <FontAwesomeIcon icon={faKey} />
             <span>Edit Password</span>
-          </a>
+          </Link>
         </div>
         <div className="sidebar-items">
-          <a href="#">
+          <Link to={""}>
             <FontAwesomeIcon icon={faTrashAlt} />
             <span>Delete Profile</span>
-          </a>
-          {/* <a href="#">
+          </Link>
+          {/* <Link to={""}>
             <FontAwesomeIcon icon={faMedal} />
             <span>Add Trust Badge</span>
-          </a> */}
+          </Link> */}
         </div>
         {/* <div className="sidebar-items">
-          <a href="#">
+          <Link to={""}>
             <FontAwesomeIcon icon={faCode} />
             <span>Add Referral Code</span>
-          </a>
+          </Link>
         </div> */}
       </div>
       <div className="sidebar-card">
         <div className="sidebar-items">
-          <a href="#">
+          <Link to={""}>
             <FontAwesomeIcon icon={faSignOutAlt} />
             <span onClick={logout}>Logout</span>
-          </a>
+          </Link>
         </div>
       </div>
     </div>

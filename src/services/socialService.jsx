@@ -53,9 +53,9 @@ const socialService = {
 
         }
     },
-    checkSocialRequest: async (pk) => {
+    checkSocialRequest: async (uuid) => {
         try {
-            const response = await api.get('/profiles/' + pk + "/check_social_request/",);
+            const response = await api.get('/profiles/check_social_request/?uuid='+uuid);
             return response.data;
         } catch (error) {
             throw error.response.data;
@@ -64,6 +64,22 @@ const socialService = {
     received_social_requests: async (pk,limit,page) => {
         try {
             const response = await api.get('/profiles/' + pk + "/recived_social_request/"+"?limit="+limit+"&page="+page,);
+            return response.data;
+        } catch (error) {
+            throw error.response.data;
+        }
+    },
+    send_social_requests: async (pk,limit,page) => {
+        try {
+            const response = await api.get('/profiles/' + pk + "/list_of_requests_send_by_profile/"+"?limit="+limit+"&page="+page,);
+            return response.data;
+        } catch (error) {
+            throw error.response.data;
+        }
+    },
+    handle_social_requests: async (pk,formData) => {
+        try {
+            const response = await api.patch('/social-access-request/' + pk + "/handle_social_request/",formData);
             return response.data;
         } catch (error) {
             throw error.response.data;

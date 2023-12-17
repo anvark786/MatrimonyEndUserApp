@@ -42,7 +42,7 @@ const ProfileDetails = ({ match }) => {
     };
     const checkPendingSocialRequests = async () => {
         try {
-            const response = await socialService.checkSocialRequest(userData.profile_id);
+            const response = await socialService.checkSocialRequest(uuid);
             
             setSubmittedRequest(response)
             if(response?.id){

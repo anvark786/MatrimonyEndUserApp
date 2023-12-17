@@ -2,10 +2,10 @@
 
 import React, { useState ,useEffect} from 'react';
 import { Tabs, Tab, Table, Button, Pagination, Badge } from 'react-bootstrap';
-import { formatDateTimeToDateString } from '../../common/CommonFunctions';
+import { formatDateTimeToDateString,calculateTimeElapsed } from '../../common/CommonFunctions';
 import { Link } from 'react-router-dom';
 
-const AccessRequests = ({ recivedRequests, pageLimit ,setPage,totalRecivedDataCounts}) => {
+const AccessRequests = ({ recivedRequests, pageLimit ,setPage,totalRecivedDataCounts,manageRequests,sentRequests,totalSentDataCounts}) => {
 
     console.log("recivedRequests",recivedRequests);
     const [key, setKey] = useState('received'); // Default active tab
@@ -35,28 +35,28 @@ const AccessRequests = ({ recivedRequests, pageLimit ,setPage,totalRecivedDataCo
     };
 
     const renderTableData = (requests) => {
-        if(requests.length>0){  
-            const startIndex = (currentPage - 1) * itemsPerPage;    
-            const endIndex = startIndex + itemsPerPage;
-            const currentRequests = requests.slice(startIndex, endIndex);
-
+        console.log("requests",requests,key);
+        if(requests.length>0){            
             return requests.map((request, index) => (
                 <tr key={index}>
-                    <td><Link to={`/profile/details/${request?.profile_requester_uuid}/`}>{request?.profile_requester_name}</Link></td>
+                    {key=="received"&&<td><Link to={`/profile/details/${request?.profile_requester_uuid}/`}>{request?.profile_requester_name}</Link></td>}
+                    {key=="submitted"&&<td><Link to={`/profile/details/${request?.profile_owner_uuid}/`}>{request?.profile_owner_name}</Link></td>}
+
                     <td>{formatDateTimeToDateString(request?.created_at)}</td>
                     <td>
                         <Badge bg={getStatusVariant(request?.status)}>{request?.status_display}</Badge>
                     </td>
-                    <td>
-                        {request?.status=="pending"&&<>
-                        <Button variant="success" className='me-3' onClick={() => handleAction('accept', index + startIndex)}>
+                    {key=="received"&&<td>
+                        {request?.status=="pending"?<>
+                        <Button variant="success" className='me-3' onClick={() => manageRequests('accept', request?.id)}>
                             Accept
                         </Button>
-                        <Button variant="danger" onClick={() => handleAction('reject', index + startIndex)}>
+                        <Button variant="danger" onClick={() => manageRequests('reject', request?.id)}>
                             Reject
                         </Button>
-                        </>}
-                    </td>   
+                        </>:<span className="text-muted" style={{fontSize:"12px"}}>{"Action taken at "+calculateTimeElapsed(request?.updated_at)}</span>}
+                    </td>} 
+                    {key=="submitted"&&request?.status!=="pending"&&<td><span className="text-muted" style={{fontSize:"12px"}}>{"Your request was "+request?.status+" "+calculateTimeElapsed(request?.updated_at)}</span></td>} 
                 </tr>
             ));
         
@@ -67,11 +67,7 @@ const AccessRequests = ({ recivedRequests, pageLimit ,setPage,totalRecivedDataCo
         }
             
     };
-
-    const handleAction = (action, index) => {
-        // Handle accept/reject action here based on the action and index
-        console.log(`${action} request at index ${index}`);
-    };
+   
 
     const submittedRequests = [
         { name: 'User A', date: '2023-02-01' },
@@ -83,7 +79,7 @@ const AccessRequests = ({ recivedRequests, pageLimit ,setPage,totalRecivedDataCo
     // if(recivedRequests){
     //     recivedRequests = recivedRequests
     // }
-    const totalSubmittedPages = Math.ceil(submittedRequests.length / itemsPerPage);
+    const totalSentPages = Math.ceil(totalRecivedDataCounts.length / itemsPerPage);
     const totalReceivedPages = Math.ceil(totalRecivedDataCounts / itemsPerPage);
 
     console.log("totalReceivedPages",totalReceivedPages);
@@ -136,7 +132,7 @@ const AccessRequests = ({ recivedRequests, pageLimit ,setPage,totalRecivedDataCo
                    {recivedRequests.length>0&&<thead>
                         <tr>
                             <th>User Profile</th>
-                            <th>Date</th>
+                            <th>Requested Date</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -145,19 +141,19 @@ const AccessRequests = ({ recivedRequests, pageLimit ,setPage,totalRecivedDataCo
                 </Table>
                 {renderPagination(totalReceivedPages)}
             </Tab>
-            <Tab eventKey="submitted" title="Request Sent">
+            <Tab eventKey="submitted" title="You Submitted Requests Status">
                 <Table striped bordered hover>
                     {<thead>
                         <tr>
                             <th>User Profile</th>
-                            <th>Date</th>
+                            <th>Requested Date</th>
                             <th>Status</th>
-                            <th>Action</th>
+                            <th>Note</th>
                         </tr>
                     </thead>}
-                    <tbody>{renderTableData(submittedRequests)}</tbody>
+                    <tbody>{renderTableData(sentRequests)}</tbody>
                 </Table>
-                {renderPagination(totalSubmittedPages)}
+                {renderPagination(totalSentPages)}
             </Tab>
         </Tabs>
     );
