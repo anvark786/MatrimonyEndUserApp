@@ -32,8 +32,12 @@ const SocialRequests = () => {
     try {
       const response = await socialService.received_social_requests(userData.profile_id, limit, page);
       console.log('response?.results:', response?.results);
-      setRecivedRequests(response?.results)
-      setrecivedCount(response?.count)
+      if(response?.results){        
+        setRecivedRequests(response?.results)
+      }
+      if(response?.count){
+        setrecivedCount(response?.count)
+      }
     } catch (error) {
       toast.error("somthing went wrong!,try again..");
 
@@ -42,9 +46,13 @@ const SocialRequests = () => {
   const getRequestsSend = async () => {
     try {
       const response = await socialService.send_social_requests(userData.profile_id, limit, page);
-      console.log('response?.results:', response?.results);
-      setSentRequests(response?.results)
-      setSentCount(response?.count)
+      console.log('response?.results:', response);
+      if(response?.results){
+        setSentRequests(response?.results)
+      }
+      if(response?.count){        
+        setSentCount(response?.count)
+      }      
     } catch (error) {
       toast.error("somthing went wrong!,try again..");
 

@@ -7,10 +7,10 @@ import { Link } from 'react-router-dom';
 
 const AccessRequests = ({ recivedRequests, pageLimit ,setPage,totalRecivedDataCounts,manageRequests,sentRequests,totalSentDataCounts}) => {
 
-    console.log("recivedRequests",recivedRequests);
-    const [key, setKey] = useState('received'); // Default active tab
+
+    const [key, setKey] = useState('received'); 
     const [currentPage, setCurrentPage] = useState(1);   
-    const itemsPerPage = pageLimit; // Adjust the number of items per page as needed
+    const itemsPerPage = pageLimit; 
 
     useEffect(() => {
         renderTableData(recivedRequests)
@@ -67,19 +67,7 @@ const AccessRequests = ({ recivedRequests, pageLimit ,setPage,totalRecivedDataCo
         }
             
     };
-   
-
-    const submittedRequests = [
-        { name: 'User A', date: '2023-02-01' },
-        { name: 'User B', date: '2023-02-02' },
-        // Add more received requests
-    ];
-
-    // let recivedRequests = []
-    // if(recivedRequests){
-    //     recivedRequests = recivedRequests
-    // }
-    const totalSentPages = Math.ceil(totalRecivedDataCounts.length / itemsPerPage);
+    const totalSentPages = Math.ceil(totalSentDataCounts / itemsPerPage);
     const totalReceivedPages = Math.ceil(totalRecivedDataCounts / itemsPerPage);
 
     console.log("totalReceivedPages",totalReceivedPages);
@@ -90,8 +78,10 @@ const AccessRequests = ({ recivedRequests, pageLimit ,setPage,totalRecivedDataCo
     };
 
     const renderPagination = (totalPages) => {
+
+        console.log("total-pag",totalPages);
         return (
-            <Pagination>
+            totalPages>0&&<Pagination>
                 <Pagination.First onClick={() => handlePageChange(1)} />
                 <Pagination.Prev
                     onClick={() => handlePageChange(currentPage - 1)}

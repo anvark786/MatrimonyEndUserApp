@@ -62,8 +62,8 @@ export const calculateTimeElapsed = (timestamp) => {
   const days = Math.floor(hours / 24);
   const weeks = Math.floor(days / 7);
   const months = Math.floor(currentTime.getMonth() - actionTime.getMonth() + (12 * (currentTime.getFullYear() - actionTime.getFullYear())));
-  const years = Math.floor(currentTime.getFullYear() - actionTime.getFullYear());
-
+  const years = Math.floor(months/12);
+  
   if (years > 0) {
     return `${years} year${years > 1 ? 's' : ''} ago`;
   } else if (months > 0) {
