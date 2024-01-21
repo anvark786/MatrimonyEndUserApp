@@ -17,6 +17,7 @@ import ProfileDetails from '../../pages/Profile/ProfileDetails';
 import ManagePhotos from '../../pages/Profile/PhotoGallery/ManagePhotos';
 import SocialMediaManagement from '../../pages/Profile/ManageSocialAccounts/SocialMediaManagement';
 import SocialRequests from '../../pages/Profile/ManageSocialAccounts/SocialRequests';
+import ProfileSearch from '../../pages/Profile/ProfileSearch';
 
 
 const MainRoutes = () => {
@@ -31,6 +32,8 @@ const MainRoutes = () => {
   const ProtectedManagePhotos= withAuth(ManagePhotos)
   const ProtectedSocialMediaManagement= withAuth(SocialMediaManagement)
   const ProtectedSocialRequests= withAuth(SocialRequests)
+  const ProtectedProfileSearch= withAuth(ProfileSearch)
+
 
 
 
@@ -57,6 +60,8 @@ const MainRoutes = () => {
       <Route exact path="/profile/manage-photos" element={<ProtectedManagePhotos/>}/>
       <Route exact path="/profile/manage-social" element={<ProtectedSocialMediaManagement/>}/>
       <Route exact path="/profile/handle-access-requests" element={<ProtectedSocialRequests/>}/>
+      <Route exact path="/profile/search-profile" element={<ProtectedProfileSearch/>}/>
+
 
 
 

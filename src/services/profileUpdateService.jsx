@@ -12,16 +12,6 @@ const profileUpdateService = {
       throw error.response.data;
     }
   },
-  getProfile: async (id) => {
-    try {
-      let url = '/profiles/'+id+'/matching_profiles/'
-        const response = await api.get(url);
-        return response.data;
-      
-    } catch (error) {
-      throw error.response.data;
-    }
-  },
   getProfileDetails: async (uuid) => {
     try {
         const response = await api.get(`/profiles/profile_by_uuid/?uuid=${uuid}`);
@@ -49,7 +39,6 @@ const profileUpdateService = {
     }
   },
   createEducation: async (formData) => {
-    console.log("formDat",formData);
     try {
       const response = await api.post('/educations/', { ...formData, profile:userData?.profile_id });
       return response.data;
@@ -58,7 +47,6 @@ const profileUpdateService = {
     }
   },
   createOccupation: async (formData) => {
-    console.log("formDat",formData);
     try {
       const response = await api.post('/occupations/', { ...formData, profile:userData?.profile_id });
       return response.data;
@@ -67,7 +55,6 @@ const profileUpdateService = {
     }
   },
   createFamily: async (formData) => {
-    console.log("formDat",formData);
     try {
       const response = await api.post('/family-details/', { ...formData, profile:userData?.profile_id });
       return response.data;
@@ -76,7 +63,6 @@ const profileUpdateService = {
     }
   },
   createAddress: async (formData) => {
-    console.log("formDat",formData);
     try {
       const response = await api.post('/address/', { ...formData, profile:userData?.profile_id });
       return response.data;
@@ -86,7 +72,6 @@ const profileUpdateService = {
   },
 
   createPreferences: async (formData) => {
-    console.log("formDat",formData);
     try {
       const response = await api.post('/preferences/', { ...formData, profile:userData?.profile_id });
       return response.data;
@@ -102,36 +87,6 @@ const profileUpdateService = {
       throw error.response.data;
     }
   },
-
-  // Add other authentication-related methods here
 };
 
 export default profileUpdateService;
-
-
-// import axios from 'axios';
-
-// // Create an axios instance
-// const api = axios.create({
-//   baseURL: 'your-api-base-url',
-// });
-
-// // Define your API methods
-// const ApiService = {
-//   createEducation: async (formData) => {
-//     try {
-//       const headers = {
-//         // Pass the access token only for this request
-//         Authorization: `Bearer ${accessToken}`,
-//       };
-//       const response = await api.post('/educations/', { ...formData, profile: userData?.profile_id }, { headers });
-//       return response.data;
-//     } catch (error) {
-//       throw error.response.data;
-//     }
-//   },
-
-//   // Other methods without access token
-// };
-
-// export default ApiService;
