@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState } from 'react';
 import * as Yup from 'yup';
 import ProfileForm from '../../../components/profiles/ProfileForm';
 import { Container, Row, Col } from 'react-bootstrap';
@@ -6,60 +6,32 @@ import Header from '../../../components/common/Header';
 import Sidebar from '../../../components/common/Sidebar';
 import profileUpdateService from '../../../services/profileUpdateService';
 import { toast } from 'react-toastify';
+import { handleFieldChangeOnDistrict } from '../../../components/common/CommonFunctions';
+import RenderOptions from '../../../components/common/RenderOptions';
 
 const Address = () => {
 
-    const [saved,setSaved] = useState(false)
-    const [stateData,setStateData] = useState({})
+    const [saved, setSaved] = useState(false)
 
-    useEffect(() => {
-        setStateData(require('../../../data/kerala.json'))
-      }, []);
-      let districtOptions = [{value:"",label:"Select District"}]
-      stateData?.districts&&stateData?.districts.map((item)=>{
-        districtOptions.push({
-            value:item?.district,
-            label:item?.district
-        })
-      })
-      let cityOptions = [{value:"",label:"Select Taluk"}]
-      let locationOptions = [{value:"",label:"Select Village"}]
+    const [renderCityOptions, setRenderCityOptions] = useState([{ value: "", label: "Select Taluk" }]);;
+    const [renderLocationOptions, setRenderLocationOptions] = useState([{ value: "", label: "Select Village" }]);
 
-    const handleFieldChange = (name,value)=>{
-        if(name=='district'){
-            let filteredDistrict = stateData?.districts&&stateData?.districts.filter((item)=>item?.district == value)
-            cityOptions.length = 0;
-            if(filteredDistrict){
-                filteredDistrict[0].subDistricts.map((item)=>{
-                    cityOptions.push({
-                    value:item?.subDistrict,
-                    label:item?.subDistrict,
-                    villages:item?.villages
-                    })
-                })
-            }
+
+    const { stateData, districtOptions } = RenderOptions();
+    const handleFieldChange = (name, value) => {
+        if (name == 'district' || name == 'city') {
+            const { cityOptions, locationOptions } = handleFieldChangeOnDistrict(name, value, stateData, renderCityOptions);
+            setRenderCityOptions(cityOptions);
+            setRenderLocationOptions(locationOptions);
         }
-        else if(name=='city'){
-            let filteredCity = cityOptions&&cityOptions.filter((item)=>item?.value == value)
-            console.log(filteredCity);
-            locationOptions.length = 0;
-            filteredCity[0].villages.map((item)=>{
-                locationOptions.push({
-                    value:item,
-                    label:item
-                })
-            })
-        }
-
     }
-
     const fields = [
-        { name: 'district', label: 'District', placeholder: 'Select District', type: "select", options: districtOptions},
-        { name: 'city', label: 'Taluk', placeholder: 'Select Taluk', type: "select",options: cityOptions },
-        { name: 'location', label: 'Village', placeholder: 'Select Village', type: "select",options:locationOptions},
-        { name: 'street', label: 'Street', placeholder: 'Enter street', type: "text"},        
-        { name: 'post_code', label: 'Post Code', placeholder: 'Enter Post Code', type: "number"},
-        { name: 'address', label: 'Full Address', placeholder: 'Enter Full Address', type: "textarea"},
+        { name: 'district', label: 'District', placeholder: 'Select District', type: "select", options: districtOptions },
+        { name: 'city', label: 'Taluk', placeholder: 'Select Taluk', type: "select", options: renderCityOptions },
+        { name: 'location', label: 'Village', placeholder: 'Select Village', type: "select", options: renderLocationOptions },
+        { name: 'street', label: 'Street', placeholder: 'Enter street', type: "text" },
+        { name: 'post_code', label: 'Post Code', placeholder: 'Enter Post Code', type: "number" },
+        { name: 'address', label: 'Full Address', placeholder: 'Enter Full Address', type: "textarea" },
 
     ];
 
@@ -69,7 +41,7 @@ const Address = () => {
         street: '',
         location: '',
         post_code: '',
-        address:''
+        address: ''
 
 
     };
@@ -84,21 +56,21 @@ const Address = () => {
 
     });
 
-    const handleSubmit = async (values) => {    
+    const handleSubmit = async (values) => {
         try {
-          const response = await profileUpdateService.createAddress(values);
-          console.log('profile--save:', response);
-          if(response){
-            setSaved(true)
-            toast.success("Saved successfully");
-          }
-          
-          // Redirect or perform any other action after successful login
+            const response = await profileUpdateService.createAddress(values);
+            console.log('profile--save:', response);
+            if (response) {
+                setSaved(true)
+                toast.success("Saved successfully");
+            }
+
+            // Redirect or perform any other action after successful login
         } catch (error) {
-            toast.error("somthing went wrong!,try again..");   
-        
-        } 
-      };
+            toast.error("somthing went wrong!,try again..");
+
+        }
+    };
 
 
     return (
@@ -112,15 +84,15 @@ const Address = () => {
                     <Col md={9} className="profile-content">
                         <h2 className='mb-4'>Address</h2>
                         <div>
-                        <ProfileForm 
-                            fields={fields} 
-                            initialValues={initialValues}
-                            validationSchema={validationSchema} 
-                            onSubmit={handleSubmit}
-                            saved={saved}
-                            url="/profile/update/preferences"
-                            onFieldChange={handleFieldChange}
-                        />
+                            <ProfileForm
+                                fields={fields}
+                                initialValues={initialValues}
+                                validationSchema={validationSchema}
+                                onSubmit={handleSubmit}
+                                saved={saved}
+                                url="/profile/update/preferences"
+                                onFieldChange={handleFieldChange}
+                            />
                         </div>
                     </Col>
                 </Row>

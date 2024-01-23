@@ -35,7 +35,7 @@ const ProfileForm = ({ fields, initialValues, validationSchema, onSubmit,saved,u
                     }
                   }
                   >                    
-                    {field.options.map((option, index) => (
+                    {field?.options.map((option, index) => (
                       <option key={index} value={option.value}>{option.label}</option>
                     ))}
                   </Field>
