@@ -92,8 +92,13 @@ const RenderOptions = () => {
         heightOptions.push(age);
     }
 
+    const weightOptions = [];
+
+    for (let w = 30; w <= 150; w++) {
+        weightOptions.push(w);
+    }
+
     const bloodGroupOptions = [
-        { value: '', label: 'Any' },
         { value: 'A+', label: 'A+' },
         { value: 'A-', label: 'A-' },
         { value: 'B+', label: 'B+' },
@@ -102,8 +107,8 @@ const RenderOptions = () => {
         { value: 'O-', label: 'O-' },
         { value: 'AB+', label: 'AB+' },
         { value: 'AB-', label: 'AB-' },
-      ];
-    
+    ];
+
     const maritalStatusOptions = [
         { value: 'Single', label: 'Single' },
         { value: 'Married', label: 'Married' },
@@ -118,9 +123,48 @@ const RenderOptions = () => {
         { value: 'physically_challenged', label: 'Physically Challenged' },
         { value: 'mentally_challenged', label: 'Mentally Challenged' },
         { value: 'other_disablity', label: 'Other Disability' },
-      ];
-      
-    
+    ];
+
+    const communityOptions = [
+        { value: 'A Muslim', label: 'A Muslim' },
+        { value: 'Ahle Hadees', label: 'Ahle Hadees' },
+        { value: 'Bohra', label: 'Bohra' },
+        { value: 'Hanabali', label: 'Hanabali' },
+        { value: 'Hanafi', label: 'Hanafi' },
+        { value: 'Jamat Islami', label: 'Jamat Islami' },
+        { value: 'Maliki', label: 'Maliki' },
+        { value: 'Salafi', label: 'Salafi' },
+        { value: 'Salafi(KNM)', label: 'Salafi(KNM)' },
+        { value: 'Salafi(Markaz Dawa)', label: 'Salafi(Markaz Dawa)' },
+        { value: 'Salafi(Wisdom)', label: 'Salafi(Wisdom)' },
+        { value: 'Sayyid', label: 'Sayyid' },
+        { value: 'Shia', label: 'Shia' },
+        { value: 'Sufism', label: 'Sufism' },
+        { value: 'Sunni', label: 'Sunni' },
+        { value: 'Sunni(AP)', label: 'Sunni(AP)' },
+        { value: 'Sunni(EK)', label: 'Sunni(EK)' },
+        { value: 'Thableegh Jamaat', label: 'Thableegh Jamaat' },
+        { value: 'Urdu Muslim', label: 'Urdu Muslim' },
+        { value: 'Pathan', label: 'Pathan' },
+        { value: 'Other', label: 'Other' },
+    ];
+
+    const educationOptions = [
+        { value: 'sslc', label: 'SSLC' },
+        { value: 'pls_two', label: 'Plus Two' },
+        { value: 'degree', label: 'Bachelor Degree' },
+        { value: 'pg', label: 'Master Degree' },
+    ];
+
+    const complexionOptions = [
+        { value: 'very_fair', label: 'Very Fair' },
+        { value: 'fair', label: 'Fair' },
+        { value: 'wheatish', label: 'Wheatish' },
+        { value: 'dark', label: 'Dark' },
+    ];
+
+
+
 
 
 
@@ -131,9 +175,13 @@ const RenderOptions = () => {
         financialStatus,
         ageOptions,
         heightOptions,
+        weightOptions,
         bloodGroupOptions,
         maritalStatusOptions,
-        physicalStatusOptions
+        physicalStatusOptions,
+        communityOptions,
+        educationOptions,
+        complexionOptions
     };
 };
 

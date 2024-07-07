@@ -32,8 +32,7 @@ const navigate = useNavigate ();
             window.location.href = '/profile';
           },
         });
-      }
-      // Redirect or perform any other action after successful login
+      }      
     } catch (error) {
       console.error('Login error:', error);
       setResponse(error)

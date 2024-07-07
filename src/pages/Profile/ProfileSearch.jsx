@@ -22,26 +22,32 @@ const SearchPage = () => {
     const [advancedSearchData, setAdvancedSearchData] = useState({
         age: { min: '', max: '' },
         height: { min: '', max: '' },
+        weight: { min: '', max: '' },
         complexion: [],
         bloodGroup: '',
         community: [],
         maritalStatus: '',
         physicalStatus: '',
-        isLockedPhotos: false,
-        isLockedSocialAccounts: false,
-        educations: '',
-        professionType: '',
-        address: {
-            district: '',
-            city: '',
-            location: '',
-        },
-        financialStatus: '',
+        showUnlockedPhotos: false,
+        showUnlockedSocial: false,
+        education: '',
+        professionType: [],
+        financialStatus: [],
     });
     const navigate = useNavigate();
 
     const handleSearchSubmit = async () => {
-        sessionStorage.setItem('filteredData', JSON.stringify({ profile_id: profileId }));
+
+        if (activeTab == 'basic') {
+            sessionStorage.removeItem('filteredData')
+            sessionStorage.setItem('profile_id', JSON.stringify({ profile_id: profileId }));
+
+        }
+        else if (activeTab == 'advanced') {
+            sessionStorage.removeItem('profile_id')
+            sessionStorage.setItem('filteredData', JSON.stringify(advancedSearchData));
+
+        }
         navigate('/profile/?filtered=true');
     };
 
@@ -56,14 +62,19 @@ const SearchPage = () => {
         financialStatus,
         ageOptions,
         heightOptions,
-        bloodGroupOptions
+        weightOptions,
+        bloodGroupOptions,
+        maritalStatusOptions,
+        physicalStatusOptions,
+        communityOptions,
+        educationOptions,
+        complexionOptions
     } = RenderOptions();
 
     const handleFieldChange = (name, value) => {
         const { cityOptions, locationOptions } = handleFieldChangeOnDistrict(name, value, stateData, renderCityOptions);
         setRenderCityOptions(cityOptions);
         setRenderLocationOptions(locationOptions);
-        console.log(locationOptions);
     }
 
 
@@ -127,9 +138,7 @@ const SearchPage = () => {
                                     </Formik>
                                 </Tab>
                                 <Tab eventKey="advanced" title="Advanced Search">
-                                    <Formik initialValues={{
-                                        profile_id: profileId
-                                    }} validationSchema={searchValidationSchema} onSubmit={handleSearchSubmit}>
+                                    <Formik initialValues={advancedSearchData} validationSchema={searchValidationSchema} onSubmit={handleSearchSubmit}>
                                         {({
                                             handleSubmit,
                                             handleChange,
@@ -142,7 +151,7 @@ const SearchPage = () => {
                                             <Form className='pt-4'>
                                                 <Form.Group as={Row} controlId="formAdvancedAge">
                                                     <Form.Label column sm="2" className='text-start fw-light'>
-                                                        Age Range(kg)
+                                                        Age Range(Years)
                                                     </Form.Label>
                                                     <Col sm="4" className='mb-2'>
                                                         <Form.Control
@@ -154,7 +163,7 @@ const SearchPage = () => {
                                                                     age: { ...advancedSearchData.age, min: e.target.value },
                                                                 })
                                                             }
-                                                        >
+                                                        >   <option key="0" value="">Any</option>
                                                             {ageOptions.map((age) => <option key={age} value={age}>{age}</option>)}
                                                         </Form.Control>
                                                     </Col>
@@ -168,7 +177,7 @@ const SearchPage = () => {
                                                                     age: { ...advancedSearchData.age, max: e.target.value },
                                                                 })
                                                             }
-                                                        >
+                                                        >   <option key="0" value="">Any</option>
                                                             {ageOptions.map((age) => <option key={age} value={age}>{age}</option>)}
                                                         </Form.Control>
                                                     </Col>
@@ -187,9 +196,9 @@ const SearchPage = () => {
                                                                     height: { ...advancedSearchData.height, min: e.target.value },
                                                                 })
                                                             }
-                                                        >
+                                                        >   <option key="0" value="">Any</option>
                                                             {heightOptions.map((height) => <option key={height} value={height}>{height}</option>)}
-                                                           
+
                                                         </Form.Control>
                                                     </Col>
                                                     <Col sm="4" className='mb-2'>
@@ -202,8 +211,42 @@ const SearchPage = () => {
                                                                     height: { ...advancedSearchData.height, max: e.target.value },
                                                                 })
                                                             }
-                                                        >
+                                                        >   <option key="0" value="">Any</option>
                                                             {heightOptions.map((height) => <option key={height} value={height}>{height}</option>)}
+                                                        </Form.Control>
+                                                    </Col>
+                                                </Form.Group>
+                                                <Form.Group as={Row} controlId="formAdvancedWeight">
+                                                    <Form.Label column sm="2" className='text-start fw-light'>
+                                                        Weight Range(kg)
+                                                    </Form.Label>
+                                                    <Col sm="4" className='mb-2'>
+                                                        <Form.Control
+                                                            as="select"
+                                                            value={advancedSearchData.weight.min}
+                                                            onChange={(e) =>
+                                                                setAdvancedSearchData({
+                                                                    ...advancedSearchData,
+                                                                    weight: { ...advancedSearchData.weight, min: e.target.value },
+                                                                })
+                                                            }
+                                                        >   <option key="0" value="">Any</option>
+                                                            {weightOptions.map((weight) => <option key={weight} value={weight}>{weight}</option>)}
+
+                                                        </Form.Control>
+                                                    </Col>
+                                                    <Col sm="4" className='mb-2'>
+                                                        <Form.Control
+                                                            as="select"
+                                                            value={advancedSearchData.weight.max}
+                                                            onChange={(e) =>
+                                                                setAdvancedSearchData({
+                                                                    ...advancedSearchData,
+                                                                    weight: { ...advancedSearchData.weight, max: e.target.value },
+                                                                })
+                                                            }
+                                                        >   <option key="0" value="">Any</option>
+                                                            {weightOptions.map((weight) => <option key={weight} value={weight}>{weight}</option>)}
                                                         </Form.Control>
                                                     </Col>
                                                 </Form.Group>
@@ -213,18 +256,18 @@ const SearchPage = () => {
                                                     </Form.Label>
                                                     <Col sm="10" className='mb-2'>
                                                         <Row>
-                                                            {['Very Fair', 'Fair', 'Wheatish', 'Dark'].map((option) => (
+                                                            {complexionOptions.map((option) => (
                                                                 <Col md={2}>
                                                                     <Form.Check
-                                                                        key={option}
-                                                                        label={option}
+                                                                        key={option?.value}
+                                                                        label={option?.label}
                                                                         type="checkbox"
 
-                                                                        checked={advancedSearchData.complexion.includes(option)}
+                                                                        checked={advancedSearchData.complexion.includes(option?.value)}
                                                                         onChange={(e) => {
                                                                             const updatedComplexion = e.target.checked
-                                                                                ? [...advancedSearchData.complexion, option]
-                                                                                : advancedSearchData.complexion.filter((item) => item !== option);
+                                                                                ? [...advancedSearchData.complexion, option?.value]
+                                                                                : advancedSearchData.complexion.filter((item) => item !== option?.value);
                                                                             setAdvancedSearchData({
                                                                                 ...advancedSearchData,
                                                                                 complexion: updatedComplexion,
@@ -251,7 +294,7 @@ const SearchPage = () => {
                                                                     bloodGroup: e.target.value,
                                                                 })
                                                             }
-                                                        >
+                                                        >   <option key="0" value="">Any</option>
                                                             {bloodGroupOptions.map((item) => <option key={item.value} value={item.value}>{item.label}</option>)}
                                                         </Form.Control>
                                                     </Col>
@@ -261,18 +304,23 @@ const SearchPage = () => {
                                                         Community
                                                     </Form.Label>
                                                     <Col sm="4" className='mb-2'>
-                                                        <Form.Control
-                                                            as="select"
-                                                            value={advancedSearchData.height.max}
-                                                            onChange={(e) =>
+
+                                                        <ReactSelect
+                                                            isMulti
+                                                            options={communityOptions}
+                                                            value={advancedSearchData.community}
+                                                            onChange={(selectedOptions) => {
                                                                 setAdvancedSearchData({
                                                                     ...advancedSearchData,
-                                                                    height: { ...advancedSearchData.height, max: e.target.value },
+                                                                    community: selectedOptions,
                                                                 })
+
                                                             }
-                                                        >
-                                                            <option value="">Select Community</option>
-                                                        </Form.Control>
+
+                                                            }
+                                                            placeholder="Select Community"
+                                                            isSearchable
+                                                        />
                                                     </Col>
                                                 </Form.Group>
                                                 <Form.Group as={Row} controlId="formAdvancedMaritalStatus">
@@ -289,8 +337,8 @@ const SearchPage = () => {
                                                                     maritalStatus: e.target.value,
                                                                 })
                                                             }
-                                                        >
-                                                            <option value="">Select Marital Status</option>
+                                                        >   <option key="0" value="">Any</option>
+                                                            {maritalStatusOptions.map((item) => <option key={item?.value} value={item?.value}>{item?.label}</option>)}
                                                         </Form.Control>
                                                     </Col>
                                                 </Form.Group>
@@ -308,8 +356,9 @@ const SearchPage = () => {
                                                                     physicalStatus: e.target.value,
                                                                 })
                                                             }
-                                                        >
-                                                            <option value="">Select Physical Status</option>
+                                                        >   <option key="0" value="">Any</option>
+                                                            {physicalStatusOptions.map((item) => <option key={item?.value} value={item?.value}>{item?.label}</option>)}
+
                                                         </Form.Control>
                                                     </Col>
                                                 </Form.Group>
@@ -352,8 +401,8 @@ const SearchPage = () => {
                                                                     education: e.target.value,
                                                                 })
                                                             }
-                                                        >
-                                                            <option value="">Select Education</option>
+                                                        >   <option key="0" value="">Any</option>
+                                                            {educationOptions.map((item) => <option key={item?.value} value={item?.value}>{item?.label}</option>)}
                                                         </Form.Control>
                                                     </Col>
                                                 </Form.Group>
@@ -400,7 +449,6 @@ const SearchPage = () => {
 
                                                             }
                                                         >
-
                                                             {districtOptions.map((item) => <option key={item?.value} value={item?.value}>{item?.label}</option>)}
                                                         </Form.Control>
                                                     </Col>
@@ -448,37 +496,41 @@ const SearchPage = () => {
                                                     </Col>
                                                 </Form.Group>
 
-                                                <Form.Group as={Row} controlId="formAdvancedIsLockedPhotos">
+                                                <Form.Group as={Row} controlId="formAdvancedShowUnlockedPhotos">
                                                     <Form.Label column sm="6" className='text-start fw-light'>
-                                                        Show only unloacked photo profiles
+                                                        Show only unlocked photo profiles
                                                     </Form.Label>
                                                     <Col sm="2">
                                                         <Form.Check
+                                                            key={"showUnlockedPhotos"}
                                                             type="checkbox"
-                                                            name="isLockedPhotos"
-                                                            checked={advancedSearchData.isLockedPhotos}
-                                                            onChange={() =>
+                                                            name="showUnlockedPhotos"
+                                                            checked={advancedSearchData.showUnlockedPhotos}
+                                                            onChange={(e) => {
                                                                 setAdvancedSearchData({
                                                                     ...advancedSearchData,
-                                                                    isLockedSocialAccounts: true,
-                                                                })
+                                                                    showUnlockedPhotos: e.target.checked,
+                                                                });
+                                                            }
+
                                                             }
                                                         />
                                                     </Col>
                                                 </Form.Group>
-                                                <Form.Group as={Row} controlId="formAdvancedIsLockedSocialAccounts">
+                                                <Form.Group as={Row} controlId="formAdvancedShowUnlockedSocial">
                                                     <Form.Label column sm="6" className='text-start fw-light'>
-                                                        Show only unloacked social profiles
+                                                        Show only unlocked social profiles
                                                     </Form.Label>
                                                     <Col sm="2">
                                                         <Form.Check
+                                                            key={"showUnlockedSocial"}
                                                             type="checkbox"
-                                                            name="isLockedSocialAccounts"
-                                                            checked={advancedSearchData.isLockedSocialAccounts}
-                                                            onChange={() =>
+                                                            name="showUnlockedSocial"
+                                                            checked={advancedSearchData.showUnlockedSocial}
+                                                            onChange={(e) =>
                                                                 setAdvancedSearchData({
                                                                     ...advancedSearchData,
-                                                                    isLockedSocialAccounts: true,
+                                                                    showUnlockedSocial: e.target.checked,
                                                                 })
                                                             }
                                                         />

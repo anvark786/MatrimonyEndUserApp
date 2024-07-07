@@ -16,6 +16,9 @@ const ProfileBasic = () => {
     const userData = JSON.parse(localStorage.getItem('userData'));
 
     const [saved,setSaved] = useState(false)
+    const [isLoading,setIsloading] = useState(true)
+
+
 
     const navigate = useNavigate ();
 
@@ -23,7 +26,7 @@ const ProfileBasic = () => {
         getReligions();
         getCommunities();
 
-      }, []);
+      }, [isLoading]);
 
 
       const getReligions = async () => {  
@@ -61,6 +64,7 @@ const ProfileBasic = () => {
           console.error('error:', error);
         
         } 
+        setIsloading(false)
       };
 
 
@@ -123,7 +127,7 @@ const ProfileBasic = () => {
               ...userData,
               profile_id: response?.id,
             };
-            localStorage.setItem('userData', JSON.stringify(userData));
+            localStorage.setItem('userData', JSON.stringify(data));
             setSaved(true)
             toast.success("Profile Data saved successfully");
           }
