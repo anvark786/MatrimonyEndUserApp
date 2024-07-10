@@ -34,6 +34,7 @@ const Register = () => {
           toast.success(ApiResponse.message, {
             onOpen: () => {
               navigate('/profile/update/basic-info');
+              window.location.reload();
             },
           });
         }

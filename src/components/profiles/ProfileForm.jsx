@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Button, Col, Form as BootstrapForm, Row } from 'react-bootstrap';
 import { useNavigate  } from 'react-router-dom';
 
-const ProfileForm = ({ fields, initialValues, validationSchema, onSubmit,saved,url,onFieldChange=null}) => { 
+const ProfileForm = ({ fields, initialValues, validationSchema, onSubmit,saved,url,onFieldChange=null,refresh=false}) => { 
   const navigate = useNavigate ();  
   return (
     <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
@@ -68,7 +68,12 @@ const ProfileForm = ({ fields, initialValues, validationSchema, onSubmit,saved,u
             </Button>
           </Col>
           <Col md={6}>
-            <Button onClick={()=>navigate(url)} disabled={saved?false:true} variant="success">
+            <Button onClick={()=>{
+              navigate(url);
+              if(refresh){                
+                window.location.reload();
+              }
+              }} disabled={saved?false:true} variant="success">
               Next
             </Button>
           </Col>

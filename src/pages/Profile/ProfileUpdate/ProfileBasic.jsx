@@ -40,7 +40,6 @@ const ProfileBasic = () => {
             })
           }) 
           setReligionOptions(religions)
-          // Redirect or perform any other action after successful login
         } catch (error) {
           console.error('error:', error);        
         } 
@@ -59,7 +58,6 @@ const ProfileBasic = () => {
           }
 
           setCommunityOptions(communities)
-          // Redirect or perform any other action after successful login
         } catch (error) {
           console.error('error:', error);
         
@@ -73,7 +71,7 @@ const ProfileBasic = () => {
         { label: 'Very Fair', value: 'very_fair' },
         { label: 'Fair', value: 'fair' },
         { label: 'Wheatish', value: 'wheatish' },
-        { label: 'Dark', value: 'masters' },
+        { label: 'Dark', value: 'dark' },
     ];
     const bloodGroupOptions = [
         { label: 'Select blood group', value: '' },
@@ -119,6 +117,7 @@ const ProfileBasic = () => {
     });
 
     const handleSubmit = async (values) => {    
+       
         try {
           const response = await profileUpdateService.createProfile(values);
           console.log('profile--save:', response);
@@ -132,7 +131,6 @@ const ProfileBasic = () => {
             toast.success("Profile Data saved successfully");
           }
           
-          // Redirect or perform any other action after successful login
         } catch (error) {
             toast.error("somthing went wrong!,try again..");   
         
@@ -151,7 +149,7 @@ const ProfileBasic = () => {
                     <Col md={9} className="profile-content">
                         <h2 className='mb-4'>Basic Profile</h2>
                         <div>
-                            <ProfileForm fields={fields} initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit} saved={saved} url="/profile/update/educational-info"/>
+                            <ProfileForm fields={fields} initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit} saved={saved} url="/profile/update/educational-info" refresh={true}/>
                         </div>
                     </Col>
                 </Row>

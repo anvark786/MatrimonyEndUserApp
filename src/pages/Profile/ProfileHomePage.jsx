@@ -92,7 +92,7 @@ const ProfileHomePage = () => {
             <Sidebar />
           </Col>
           <Col md={9} className="profile-content">
-            {profileData.length > 0 ? (
+            {profileData&&profileData.length > 0 ? (
               <div>
                 <ProfileList profiles={profileData} />
                 <CustomizedPagination totalPages={totalPages} setPage={setPage} />
