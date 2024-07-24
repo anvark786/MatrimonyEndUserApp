@@ -10,6 +10,8 @@ import { toast } from 'react-toastify';
 const Preferences = () => {
 
     const [saved,setSaved] = useState(false)
+    const userData = JSON.parse(localStorage.getItem('userData'));
+
 
     const districtOption = [
         { value: '', label: 'Select District' },
@@ -66,6 +68,11 @@ const Preferences = () => {
           console.log('profile--save:', response);
           if(response){
             setSaved(true)
+            const updatedUserData = {
+                ...userData,
+                has_completed_signup:true
+              };
+            localStorage.setItem('userData', JSON.stringify(updatedUserData));
             toast.success("Profile Update Completed Successfully");
           }
           

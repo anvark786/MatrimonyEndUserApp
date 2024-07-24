@@ -19,6 +19,7 @@ import { Link } from 'react-router-dom';
 
 const Sidebar = () => {
 
+  const userData = JSON.parse(localStorage.getItem('userData'));
 
   useEffect(() => {
     checkTokenExpiration();
@@ -55,7 +56,7 @@ const Sidebar = () => {
   };
   
   return (
-    <div className="sidebar">
+    userData?.has_completed_signup&&<div className="sidebar">
       <div className="sidebar-card">
         <div className="sidebar-title">My Profile</div>
         <div className="sidebar-items">

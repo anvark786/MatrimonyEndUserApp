@@ -22,13 +22,15 @@ const Register = () => {
     if (otpVerified) {
       try {
         const ApiResponse = await AuthService.register({ ...values });
-        console.log('reg responseful:', ApiResponse);
         setResponse(ApiResponse);
         if (ApiResponse) {
           const userData = {
             user_id: ApiResponse?.user_data?.id,
             access_token: ApiResponse?.access_token,
             profile_id: null,
+            has_completed_signup:false
+            
+
           };
           localStorage.setItem('userData', JSON.stringify(userData));
           toast.success(ApiResponse.message, {

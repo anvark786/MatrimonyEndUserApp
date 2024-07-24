@@ -12,6 +12,7 @@ import FamilyDetails from '../../pages/Profile/ProfileUpdate/FamilyDetails';
 import Address from '../../pages/Profile/ProfileUpdate/Address';
 import Preferences from '../../pages/Profile/ProfileUpdate/Preferences';
 import withAuth from '../auth/AuthComponent';
+import withCompleteAuth from '../auth/CompletedSignupAuth';
 
 import ProfileDetails from '../../pages/Profile/ProfileDetails';
 import ManagePhotos from '../../pages/Profile/PhotoGallery/ManagePhotos';
@@ -21,25 +22,19 @@ import ProfileSearch from '../../pages/Profile/ProfileSearch';
 
 
 const MainRoutes = () => {
-  const ProtectedProfilePage = withAuth(ProfileHomePage)
+  const ProtectedProfilePage = withCompleteAuth(ProfileHomePage)
   const ProtectedProfileBasic = withAuth(ProfileBasic)
   const ProtectedEducationalDetails = withAuth(EducationalDetails)
   const ProtectedOccupationalDetails = withAuth(OccupationalDetails)
   const ProtectedFamilyDetails = withAuth(FamilyDetails)
   const ProtectedAddress = withAuth(Address)
   const ProtectedPreferences = withAuth(Preferences)
-  const ProtectedProfileDetails = withAuth(ProfileDetails)
-  const ProtectedManagePhotos= withAuth(ManagePhotos)
-  const ProtectedSocialMediaManagement= withAuth(SocialMediaManagement)
-  const ProtectedSocialRequests= withAuth(SocialRequests)
-  const ProtectedProfileSearch= withAuth(ProfileSearch)
-
-
-
-
-
-
-
+  const ProtectedProfileDetails = withCompleteAuth(ProfileDetails)
+  const ProtectedManagePhotos= withCompleteAuth(ManagePhotos)
+  const ProtectedSocialMediaManagement= withCompleteAuth(SocialMediaManagement)
+  const ProtectedSocialRequests= withCompleteAuth(SocialRequests)
+  const ProtectedProfileSearch= withCompleteAuth(ProfileSearch)
+  
   return (
     <Routes>
       {/* Routes accessible to all users */}

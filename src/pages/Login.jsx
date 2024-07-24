@@ -22,6 +22,7 @@ const Login = () => {
         access_token: response?.access_token,
         token_expiration: expirationTimestamp,
         profile_id: response?.profile_id,
+        has_completed_signup:response?.has_completed_signup
       };
       localStorage.setItem('userData', JSON.stringify(userData));
       setResponse(response)
