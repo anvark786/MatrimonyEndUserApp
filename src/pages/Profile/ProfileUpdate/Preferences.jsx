@@ -4,12 +4,15 @@ import ProfileForm from '../../../components/profiles/ProfileForm';
 import { Container, Row, Col } from 'react-bootstrap';
 import Header from '../../../components/common/Header';
 import Sidebar from '../../../components/common/Sidebar';
-import profileUpdateService from '../../../services/profileUpdateService';
 import { toast } from 'react-toastify';
+import callCommonInternalApiService from '../../../services/callCommonInternalApiService';
 
 const Preferences = () => {
 
-    const [saved,setSaved] = useState(false)
+    const profileData = JSON.parse(sessionStorage.getItem('profileData')) || {};
+    const [saved,setSaved] = useState(profileData.partner_preference?true:false)
+
+
     const userData = JSON.parse(localStorage.getItem('userData'));
 
 
@@ -52,6 +55,8 @@ const Preferences = () => {
 
 
     };
+    const [partnerPreference, setPartnerPreference] = useState(profileData.partner_preference || initialValues);
+
 
     const validationSchema = Yup.object({
         age_min: Yup.string().required('Min Age is required'),
@@ -64,8 +69,12 @@ const Preferences = () => {
 
     const handleSubmit = async (values) => {    
         try {
-          const response = await profileUpdateService.createPreferences(values);
-          console.log('profile--save:', response);
+
+          let method, url,message;
+
+          [method, url,message] = profileData.partner_preference ? ["patch", "/preferences/"+partnerPreference?.id+"/","updated"] : ["post", "/preferences/","saved"];
+    
+          const response = await callCommonInternalApiService(url,method,values)
           if(response){
             setSaved(true)
             const updatedUserData = {
@@ -73,10 +82,9 @@ const Preferences = () => {
                 has_completed_signup:true
               };
             localStorage.setItem('userData', JSON.stringify(updatedUserData));
-            toast.success("Profile Update Completed Successfully");
+            sessionStorage.setItem('profileData', JSON.stringify({...profileData,partner_preference:response}));
+            toast.success(`Profile data ${message} successfully`);
           }
-          
-          // Redirect or perform any other action after successful login
         } catch (error) {
             toast.error("somthing went wrong!,try again..");   
         
@@ -94,7 +102,14 @@ const Preferences = () => {
                     <Col md={9} className="profile-content">
                         <h2 className='mb-4'>Partner Preferences</h2>
                         <div>
-                        <ProfileForm fields={fields} initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit} saved={saved} url="/profile/"/>
+                        <ProfileForm fields={fields}
+                            initialValues={partnerPreference} 
+                            validationSchema={validationSchema}
+                            onSubmit={handleSubmit}
+                            saved={saved} 
+                            url="/profile/"
+                            urlBack="/profile/update/address"
+                        />
 
                         </div>
                     </Col>

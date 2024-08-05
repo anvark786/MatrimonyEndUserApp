@@ -1,23 +1,45 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import ProfileForm from '../../../components/profiles/ProfileForm';
 import { Container, Row, Col } from 'react-bootstrap';
 import Header from '../../../components/common/Header';
 import Sidebar from '../../../components/common/Sidebar';
-import profileUpdateService from '../../../services/profileUpdateService';
 import { toast } from 'react-toastify';
 import { handleFieldChangeOnDistrict } from '../../../components/common/CommonFunctions';
 import RenderOptions from '../../../components/common/RenderOptions';
+import callCommonInternalApiService from '../../../services/callCommonInternalApiService';
 
 const Address = () => {
 
-    const [saved, setSaved] = useState(false)
+    const profileData = JSON.parse(sessionStorage.getItem('profileData')) || {};
+    const [saved,setSaved] = useState(profileData.address?true:false)
 
     const [renderCityOptions, setRenderCityOptions] = useState([{ value: "", label: "Select Taluk" }]);;
     const [renderLocationOptions, setRenderLocationOptions] = useState([{ value: "", label: "Select Village" }]);
 
 
     const { stateData, districtOptions } = RenderOptions();
+    
+    const [address, setAddress] = useState(profileData.address || initialValues);
+
+    
+    useEffect(() => {
+        if (address) {
+            let state = require('../../../data/kerala.json');
+            const updateOptions = (field) => {
+                const { cityOptions, locationOptions } = handleFieldChangeOnDistrict(field, address[field], state, renderCityOptions);
+                setRenderCityOptions(cityOptions);
+                setRenderLocationOptions(locationOptions);
+            };
+            if (address.district) {
+                updateOptions('district');
+            }
+            if (address.city) {
+                updateOptions('city');
+            }
+        }
+    }, []);
+
     const handleFieldChange = (name, value) => {
         if (name == 'district' || name == 'city') {
             const { cityOptions, locationOptions } = handleFieldChangeOnDistrict(name, value, stateData, renderCityOptions);
@@ -46,6 +68,7 @@ const Address = () => {
 
     };
 
+
     const validationSchema = Yup.object({
         district: Yup.string().required('District is required'),
         city: Yup.string().required('Taluk is required'),
@@ -56,16 +79,20 @@ const Address = () => {
 
     });
 
+
     const handleSubmit = async (values) => {
         try {
-            const response = await profileUpdateService.createAddress(values);
-            console.log('profile--save:', response);
+            let method, url,message;
+
+            [method, url,message] = profileData.address ? ["patch", "/address/"+address?.id+"/","updated"] : ["post", "/address/","saved"];
+      
+            const response = await callCommonInternalApiService(url,method,values)
             if (response) {
                 setSaved(true)
-                toast.success("Saved successfully");
-            }
+                sessionStorage.setItem('profileData', JSON.stringify({...profileData,address:response}));
+                toast.success(`${message} successfully`);
 
-            // Redirect or perform any other action after successful login
+            }
         } catch (error) {
             toast.error("somthing went wrong!,try again..");
 
@@ -86,11 +113,12 @@ const Address = () => {
                         <div>
                             <ProfileForm
                                 fields={fields}
-                                initialValues={initialValues}
+                                initialValues={address}
                                 validationSchema={validationSchema}
                                 onSubmit={handleSubmit}
                                 saved={saved}
                                 url="/profile/update/preferences"
+                                urlBack="/profile/update/family-info"
                                 onFieldChange={handleFieldChange}
                             />
                         </div>

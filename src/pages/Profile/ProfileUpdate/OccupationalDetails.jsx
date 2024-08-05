@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import * as Yup from 'yup';
 import ProfileForm from '../../../components/profiles/ProfileForm';
 import { Container, Row, Col } from 'react-bootstrap';
 import Header from '../../../components/common/Header';
 import Sidebar from '../../../components/common/Sidebar';
-import profileUpdateService from '../../../services/profileUpdateService';
 import { toast } from 'react-toastify';
+import callCommonInternalApiService from '../../../services/callCommonInternalApiService';
 
 
 
 const OccupationalDetails = () => {   
     const [saved,setSaved] = useState(false)
+    const profileData = JSON.parse(sessionStorage.getItem('profileData')) || {};
     const professionsOptions = [
         { value: '', label: 'Select Profession Type' },
         { value: 'accountant', label: 'Accountant' },
@@ -88,23 +89,35 @@ const OccupationalDetails = () => {
         job_details: '',
         annual_income: '',
     };
+    const [occupation, setOccupation] = useState(profileData.occupation || initialValues);
+
 
     const validationSchema = Yup.object({
         job_details: Yup.string().required('Job Details is required'),
 
     });
 
+    useEffect(() => {
+        if (profileData.occupation) {
+            setSaved(true)
+            setOccupation(profileData.occupation);
+        }
+    }, []);
+
 
     const handleSubmit = async (values) => {    
         try {
-          const response = await profileUpdateService.createOccupation(values);
-          console.log('profile--save:', response);
+        let method, url,message;
+
+        [method, url,message] = profileData.occupation ? ["patch", "/occupations/"+occupation?.id+"/","Updated"] : ["post", "/occupations/","Saved"];
+  
+        const response = await callCommonInternalApiService(url,method,values)
           if(response){
             setSaved(true)
-            toast.success("Saved successfully");
+            sessionStorage.setItem('profileData', JSON.stringify({...profileData,occupation:response}));
+            toast.success(`${message} successfully`);
           }
           
-          // Redirect or perform any other action after successful login
         } catch (error) {
             toast.error("somthing went wrong!,try again..");   
         
@@ -122,7 +135,13 @@ const OccupationalDetails = () => {
                     <Col md={9} className="profile-content">
                         <h2 className='mb-4'>Ocupational Details</h2>
                         <div>
-                        <ProfileForm fields={fields} initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit} saved={saved} url="/profile/update/family-info"/>
+                        <ProfileForm fields={fields} 
+                        initialValues={occupation} 
+                        validationSchema={validationSchema} 
+                        onSubmit={handleSubmit} saved={saved} 
+                        url="/profile/update/family-info"
+                        urlBack="/profile/update/educational-info"
+                        />
                         </div>
                     </Col>
                 </Row>

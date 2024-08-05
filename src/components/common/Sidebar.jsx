@@ -23,11 +23,10 @@ const Sidebar = () => {
 
   useEffect(() => {
     checkTokenExpiration();
-    // Set up a timer to check token expiration every minute
     const tokenCheckInterval = setInterval(checkTokenExpiration, 1000);
 
     return () => {
-      clearInterval(tokenCheckInterval); // Clean up the interval on unmount
+      clearInterval(tokenCheckInterval); 
     };
    
   }, []);
@@ -35,20 +34,19 @@ const Sidebar = () => {
 
   const logout = () => {
     localStorage.removeItem('userData');
-     window.location.href = '/profile';// Replace with your desired URL
+     window.location.href = '/profile';
   };
   const checkTokenExpiration = () => {
     const userData = JSON.parse(localStorage.getItem('userData'));
     const accessToken = userData?.access_token
     const expirationTimestamp = userData?.token_expiration
-    const currentTimestamp = Math.floor(Date.now() / 1000); // Current timestamp in seconds
-
+    const currentTimestamp = Math.floor(Date.now() / 1000); 
     if (accessToken&& expirationTimestamp) {
       if (currentTimestamp >= expirationTimestamp) { 
         localStorage.removeItem('userData');
         toast.error("Session Expired,Please Login Again!.", {
           onOpen: () => {
-             window.location.href = '/profile';; // Redirect after the toast is closed
+             window.location.href = '/profile';; 
           },
         });   
       }
@@ -56,11 +54,11 @@ const Sidebar = () => {
   };
   
   return (
-    userData?.has_completed_signup&&<div className="sidebar">
-      <div className="sidebar-card">
+    <div className="sidebar">
+      {userData?.has_completed_signup&&<div className="sidebar-card">
         <div className="sidebar-title">My Profile</div>
         <div className="sidebar-items">
-          <Link to={""}>
+          <Link to={"/profile/update/basic-info"}>
             <FontAwesomeIcon icon={faUser} />
             <span>Edit My Profile</span>
           </Link>
@@ -77,8 +75,8 @@ const Sidebar = () => {
             <span>Manage Social Requests</span>
           </Link>
         </div>
-      </div>
-      <div className="sidebar-card">
+      </div>}
+      {userData?.has_completed_signup&&<div className="sidebar-card">
         <div className="sidebar-title">Account Settings</div>
         <div className="sidebar-items">
           <Link to={""}>
@@ -112,7 +110,7 @@ const Sidebar = () => {
             <span>Add Referral Code</span>
           </Link>
         </div> */}
-      </div>
+      </div>}
       <div className="sidebar-card">
         <div className="sidebar-items">
           <Link to={""}>

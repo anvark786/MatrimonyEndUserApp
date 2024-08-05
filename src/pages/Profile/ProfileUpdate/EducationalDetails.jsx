@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as Yup from 'yup';
 import ProfileForm from '../../../components/profiles/ProfileForm';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import Header from '../../../components/common/Header';
 import Sidebar from '../../../components/common/Sidebar';
-import profileUpdateService from '../../../services/profileUpdateService';
 import { toast } from 'react-toastify';
-
+import callCommonInternalApiService from '../../../services/callCommonInternalApiService';
 
 const EducationalDetails = () => {
-
-    const [saved,setSaved] = useState(false)
+    const [saved, setSaved] = useState(false);
+    const profileData = JSON.parse(sessionStorage.getItem('profileData')) || {};
 
     const educationOptions = [
         { label: 'Select Highest Education', value: '' },
@@ -19,45 +18,55 @@ const EducationalDetails = () => {
         { label: 'Bachelor Degree', value: 'degree' },
         { label: 'Master Degree', value: 'pg' },
     ];
-   
 
-    const fields = [
-        { name: 'name', label: 'Highest Education', placeholder: 'Select Highest Education', type: "select", options: educationOptions},
-        { name: 'institution', label: 'Institution Name', placeholder: 'Enter Institution Name', type: "text" },
-        { name: 'details', label: 'Institution Details', placeholder: 'Example:address...etc', type: "textarea"},
-
-
-    ];
-
-    const initialValues = {
+    const initialEducation = {
         name: '',
         institution: '',
         details: '',
-
     };
 
-    const validationSchema = Yup.object({
-        name: Yup.string().required('Highest Education is required'),
-        institution: Yup.string().required('Institution is required'),
+    const [educationList, setEducationList] = useState(profileData.education || [initialEducation]);
 
+    const fields = [
+        { name: 'name', label: 'Education', placeholder: 'Select Highest Education', type: "select", options: educationOptions },
+        { name: 'institution', label: 'Institution Name', placeholder: 'Enter Institution Name', type: "text" },
+        { name: 'details', label: 'Institution Details', placeholder: 'Example: address...etc', type: "textarea" },
+    ];
+
+    const validationSchema = Yup.object().shape({
+        educationList: Yup.array().of(
+            Yup.object().shape({
+                name: Yup.string().required('Highest Education is required'),
+                institution: Yup.string().required('Institution is required'),
+                details: Yup.string(),
+            })
+        )
     });
 
-    
-    const handleSubmit = async (values) => {    
-        try {
-          const response = await profileUpdateService.createEducation(values);
-          console.log('profile--save:', response);
-          if(response){
+    useEffect(() => {
+        if (profileData.education) {
             setSaved(true)
-            toast.success("Saved successfully");
-          }
-          
-          // Redirect or perform any other action after successful login
+            setEducationList(profileData.education);
+        }
+    }, []);
+
+    const handleSubmit = async (values) => {
+        try {
+            const method =  "post";
+            const url = `/educations/`;
+            const response = await callCommonInternalApiService(url,method,{ educationList: JSON.stringify(values.educationList),profile_id:profileData?.id} );
+
+            if (response) {
+                setSaved(true);
+                let message = profileData?.education? "Updated":"Saved"
+                toast.success(`${message} successfully`);
+                sessionStorage.setItem('profileData', JSON.stringify({...profileData,education:response}));
+
+            }
         } catch (error) {
-            toast.error("somthing went wrong!,try again..");   
-        
-        } 
-      };
+            toast.error("Something went wrong, try again.");
+        }
+    };
 
     return (
         <div>
@@ -69,9 +78,17 @@ const EducationalDetails = () => {
                     </Col>
                     <Col md={9} className="profile-content">
                         <h2 className='mb-4'>Educational Details</h2>
-                        <div>
-                            <ProfileForm fields={fields} initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit} saved={saved} url="/profile/update/occupational-info"/>
-                        </div>
+                        <ProfileForm
+                            fields={fields}
+                            initialValues={{ educationList }}
+                            validationSchema={validationSchema}
+                            onSubmit={handleSubmit}
+                            saved={saved}
+                            url="/profile/update/occupational-info"
+                            urlBack="/profile/update/basic-info"
+                            isEducation={true}
+                            profileId={profileData.id}
+                        />
                     </Col>
                 </Row>
             </Container>

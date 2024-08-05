@@ -31,7 +31,7 @@ export function getPlatformIcon(platform) {
 			case 'whatsapp':
 				return <FontAwesomeIcon className='' style={{ color: "#075e54	" }} icon={faWhatsapp} />;
 			default:
-				return <FontAwesomeIcon icon={faFacebookSquare} />; // Default to Facebook icon
+				return <FontAwesomeIcon icon={faFacebookSquare} />;
 		}
 	}
 
@@ -39,13 +39,11 @@ export function getPlatformIcon(platform) {
 
 export function formatDateTimeToDateString(datetimeString) {
 	const datetimeObject = new Date(datetimeString);
-
-	// Extract date components
+	
 	const day = datetimeObject.getDate().toString().padStart(2, '0');
-	const month = (datetimeObject.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+	const month = (datetimeObject.getMonth() + 1).toString().padStart(2, '0'); 
 	const year = datetimeObject.getFullYear();
 
-	// Create a date string in the format "DD-MM-YYYY"
 	const dateString = `${day}-${month}-${year}`;
 
 	return dateString;
@@ -148,88 +146,10 @@ export function buildAdvancedQueryParams(filteredData, itemsPerPage, page) {
 	};
   
 	const queryString = Object.entries(queryParams)
-	  .filter(([key, value]) => value !== undefined) // Exclude undefined values
+	  .filter(([key, value]) => value !== undefined) 
 	  .map(([key, value]) => `${key}=${value}`)
 	  .join('&');
   
 	return queryString ? `?${queryString}` : '';
   }
   
-
-
-
-// export function buildAdvancedQueryParams(filteredData, itemsPerPage, page) {
-// 	const queryParams = {
-// 		limit: itemsPerPage,
-// 		page: page,
-// 		basic: true,
-// 	};
-
-// 	if (filteredData?.age) {
-// 		const { min: ageMin, max: ageMax } = filteredData.age;
-// 		queryParams.age__lte = ageMax;
-// 		queryParams.age__gte = ageMin;
-// 	}
-
-// 	if (filteredData?.height) {
-// 		const { min: heightMin, max: heightMax } = filteredData.height;
-// 		queryParams.height__lte = heightMax;
-// 		queryParams.height__gte = heightMin;
-// 	}
-
-// 	if (filteredData?.weight) {
-// 		const { min: weightMin, max: weightMax } = filteredData.weight;
-// 		queryParams.weight__lte = weightMax;
-// 		queryParams.weight__gte = weightMin;
-// 	}
-// 	if (filteredData?.complexion) {
-// 		const complexionString = filteredData?.complexion.join(',');
-// 		queryParams.complexion__in = complexionString;
-// 	}
-// 	if (filteredData?.bloodGroup) {
-// 		queryParams.blood_group = filteredData?.bloodGroup;
-// 	}
-// 	if (filteredData?.community) {
-// 		const communityString = filteredData?.community.join(',');
-// 		queryParams.community__name__in = communityString;
-// 	}
-// 	if (filteredData?.maritalStatus) {
-// 		queryParams.marital_status = filteredData?.maritalStatus;
-// 	}
-// 	if (filteredData?.education) {
-// 		queryParams.educations__name = filteredData?.education;
-// 	}
-// 	if (filteredData?.physicalStatus) {
-// 		queryParams.physical_status = filteredData?.physicalStatus;
-// 	}
-// 	if (filteredData?.professionType) {
-// 		const professionTypeString = filteredData?.professionType.join(',');
-// 		queryParams.occupation__profession_type__in = professionTypeString;
-// 	}
-// 	if (filteredData?.financialStatus) {
-// 		const financialStatusString = filteredData?.financialStatus.join(',');
-// 		queryParams.family__financial_status__in = financialStatusString;
-// 	}
-// 	if (filteredData?.showUnlockedPhotos) {
-// 		queryParams.is_locked_photos = false;
-// 	}
-// 	if (filteredData?.showUnlockedSocial) {
-// 		queryParams.is_locked_social_accounts = false;
-// 	}
-
-// 	if (filteredData?.district) {
-// 		queryParams.address__district = filteredData?.district;
-// 	}
-
-// 	if (filteredData?.city) {
-// 		queryParams.address__city = filteredData?.city;
-// 	}
-
-// 	if (filteredData?.location) {
-// 		queryParams.address__location = filteredData?.location;
-// 	}
-// 	const queryString = Object.entries(queryParams)
-// 		.map(([key, value]) => `${key}=${value}`)
-// 		.join('&');
-// 	return `?${queryString}`;
-// }

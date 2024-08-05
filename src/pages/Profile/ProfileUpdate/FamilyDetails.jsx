@@ -4,12 +4,15 @@ import ProfileForm from '../../../components/profiles/ProfileForm';
 import { Container, Row, Col } from 'react-bootstrap';
 import Header from '../../../components/common/Header';
 import Sidebar from '../../../components/common/Sidebar';
-import profileUpdateService from '../../../services/profileUpdateService';
 import { toast } from 'react-toastify';
+import callCommonInternalApiService from '../../../services/callCommonInternalApiService';
 
 const FamilyDetails = () => {
 
-    const [saved,setSaved] = useState(false)
+    
+    const profileData = JSON.parse(sessionStorage.getItem('profileData')) || {};
+    const [saved,setSaved] = useState(profileData.family_details?true:false)
+
 
     const financialStatusOptions = [
         { label: 'Select Financial Status', value: '' },
@@ -54,6 +57,8 @@ const FamilyDetails = () => {
         more_details:''
         
     };
+    const [familyDetails, setFamilyDetails] = useState(profileData.family_details || initialValues);
+
 
     const validationSchema = Yup.object({
         financial_status: Yup.string().required('Financial status is required'),
@@ -70,11 +75,16 @@ const FamilyDetails = () => {
 
     const handleSubmit = async (values) => {    
         try {
-          const response = await profileUpdateService.createFamily(values);
+          let method, url,message;
+
+          [method, url,message] = profileData.family_details ? ["patch", "/family-details/"+familyDetails?.id+"/","Updated"] : ["post", "/family-details/","Saved"];
+    
+          const response = await callCommonInternalApiService(url,method,values)
           console.log('profile--save:', response);
           if(response){
             setSaved(true)
-            toast.success("Saved successfully");
+            sessionStorage.setItem('profileData', JSON.stringify({...profileData,family_details:response}));
+            toast.success(`${message} successfully`);
           }
           
           // Redirect or perform any other action after successful login
@@ -95,7 +105,14 @@ const FamilyDetails = () => {
                     <Col md={9} className="profile-content">
                         <h2 className='mb-4'>Family Details</h2>
                         <div>
-                        <ProfileForm fields={fields} initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit} saved={saved} url="/profile/update/address"/>
+                        <ProfileForm fields={fields} 
+                        initialValues={familyDetails} 
+                        validationSchema={validationSchema} 
+                        onSubmit={handleSubmit} 
+                        saved={saved} 
+                        url="/profile/update/address"
+                        urlBack="/profile/update/occupational-info"
+                        />
                         </div>
                     </Col>
                 </Row>
