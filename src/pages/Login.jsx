@@ -23,7 +23,8 @@ const Login = () => {
         token_expiration: expirationTimestamp,
         profile_id: response?.profile_id,
         profile_uuid:response?.profile_uuid,
-        has_completed_signup:response?.has_completed_signup
+        has_completed_signup:response?.has_completed_signup,
+        is_hidden:response?.is_hidden 
       };
       localStorage.setItem('userData', JSON.stringify(userData));
       setResponse(response)

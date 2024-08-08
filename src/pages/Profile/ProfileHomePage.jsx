@@ -66,10 +66,9 @@ const ProfileHomePage = () => {
       if (response) {
         console.log('test1');
         if (response?.results) {
-        console.log('test2',response?.results);
-
           setProfileData(response?.results)
-          setDataCount(response?.count)
+          setDataCount(response?.count)         
+
         }
         else {
           console.log('t3');
@@ -83,13 +82,35 @@ const ProfileHomePage = () => {
       toast.error(error[0])
     }
   };
+
+  const hideOrUnhideProfile=async()=>{
+    try {
+      let method, url;
+      url = `profiles/${userData.profile_id}/hide-or-unhide-profile/`
+      method = 'patch' 
+      const response = await callCommonInternalApiService(url,method)
+      if (response) {
+          toast.success(response?.message);
+          const updatedUserData = {
+            ...userData,
+            is_hidden:response?.is_hidden
+          };
+        localStorage.setItem('userData', JSON.stringify(updatedUserData));
+
+      }
+  } catch (error) {
+      toast.error("somthing went wrong!,try again..");
+
+  
+};
+  }
   return (
     <div>
       <Header />
       <Container fluid>
         <Row>
           <Col md={3} style={{ backgroundColor: "#f4f4f4" }}>
-            <Sidebar />
+            <Sidebar hide_profile={hideOrUnhideProfile}/>
           </Col>
           <Col md={9} className="profile-content">
             {profileData&&profileData.length > 0 ? (

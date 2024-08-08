@@ -17,7 +17,7 @@ import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 
 
-const Sidebar = () => {
+const Sidebar = ({hide_profile}) => {
 
   const userData = JSON.parse(localStorage.getItem('userData'));
 
@@ -85,10 +85,10 @@ const Sidebar = () => {
           </Link>
         </div>
         <div className="sidebar-items">
-          <Link to={""}>
-            <FontAwesomeIcon icon={faEyeSlash} />
-            <span>Hide Profile</span>
-          </Link>
+        <Link to={""} onClick={()=>hide_profile()}>
+          <FontAwesomeIcon icon={userData?.is_hidden ? faEye : faEyeSlash} />
+          <span>{userData?.is_hidden ? "Unhide Profile" : "Hide Profile"}</span>
+        </Link>
           <Link to={""}>
             <FontAwesomeIcon icon={faKey} />
             <span>Edit Password</span>

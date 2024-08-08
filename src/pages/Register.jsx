@@ -28,8 +28,8 @@ const Register = () => {
             user_id: ApiResponse?.user_data?.id,
             access_token: ApiResponse?.access_token,
             profile_id: null,
-            has_completed_signup:false
-            
+            has_completed_signup:false,
+            is_hidden:false            
 
           };
           localStorage.setItem('userData', JSON.stringify(userData));
