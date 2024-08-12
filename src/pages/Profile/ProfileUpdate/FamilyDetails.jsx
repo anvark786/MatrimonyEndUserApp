@@ -75,11 +75,11 @@ const FamilyDetails = () => {
 
     const handleSubmit = async (values) => {    
         try {
-          let method, url,message;
+          let method, url,message,form_data;
 
-          [method, url,message] = profileData.family_details ? ["patch", "/family-details/"+familyDetails?.id+"/","Updated"] : ["post", "/family-details/","Saved"];
+          [method, url,message,form_data] = profileData.family_details ? ["patch", "/family-details/"+familyDetails?.id+"/","Updated",values] : ["post", "/family-details/","Saved",{...values,"profile":profileData?.id}];
     
-          const response = await callCommonInternalApiService(url,method,values)
+          const response = await callCommonInternalApiService(url,method,form_data)
           console.log('profile--save:', response);
           if(response){
             setSaved(true)

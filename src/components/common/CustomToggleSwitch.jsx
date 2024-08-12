@@ -1,9 +1,9 @@
 import React from 'react';
 
-const CustomToggleSwitch = ({ isLocked, handleToggleSwitch }) => {
+const CustomToggleSwitch = ({ isLocked, handleToggleSwitch,title }) => {
   return (
     <div className="d-flex my-4 justify-content-end align-items-center">
-      <label className="me-2">{isLocked?"Unlock ":"Lock "}Social Accounts</label>
+      <label className="me-2">{title}</label>
       <div className="form-check form-switch">
         <input
           className="form-check-input"

@@ -37,7 +37,7 @@ const ProfileDetails = ({ match }) => {
             setProfileDetailse(response);
             setPhotos(response?.photos)
         } catch (error) {
-            toast.error('Something went wrong');
+            toast.error(error?.error);
         }
     };
     const checkPendingSocialRequests = async () => {
@@ -49,7 +49,7 @@ const ProfileDetails = ({ match }) => {
                 setHasSubmittedRequest(true)
             }
         } catch (error) {
-            toast.error('Something went wrong');
+            toast.error(error?.error);
         }
     };
     
@@ -65,11 +65,10 @@ const ProfileDetails = ({ match }) => {
                 toast.success("Request was submitted successfully");
               }
         } catch (error) {
-            toast.error('Something went wrong');
+            toast.error(error?.error);
         }
     }
 
-    // Configuration for the photo slider
     const sliderSettings = {
         dots: true,
         infinite: true,

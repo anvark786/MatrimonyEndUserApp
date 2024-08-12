@@ -107,11 +107,11 @@ const OccupationalDetails = () => {
 
     const handleSubmit = async (values) => {    
         try {
-        let method, url,message;
+        let method, url,message,form_data;
 
-        [method, url,message] = profileData.occupation ? ["patch", "/occupations/"+occupation?.id+"/","Updated"] : ["post", "/occupations/","Saved"];
+        [method, url,message,form_data] = profileData.occupation ? ["patch", "/occupations/"+occupation?.id+"/","Updated",values] : ["post", "/occupations/","Saved",{...values,"profile":profileData?.id}];
   
-        const response = await callCommonInternalApiService(url,method,values)
+        const response = await callCommonInternalApiService(url,method,form_data)
           if(response){
             setSaved(true)
             sessionStorage.setItem('profileData', JSON.stringify({...profileData,occupation:response}));

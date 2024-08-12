@@ -16,12 +16,13 @@ const ManageSocial = ({
 }) => {
   const [editingIndex, setEditingIndex] = useState(null); 
   const [id, setId] = useState(null);
-
+  let customTitle = isLocked ? 'Lock' : 'Unlock'
+  customTitle += " your social accounts"
 
   return (
     <div className="social-management-container mt-5">
       <h4 className="mb-4 text-dark">Manage Social Accounts</h4>
-      <CustomToggleSwitch isLocked={isLocked} handleToggleSwitch={handleToggleSwitch}/>
+      <CustomToggleSwitch isLocked={isLocked} handleToggleSwitch={handleToggleSwitch} title={customTitle}/>
       <Formik
         initialValues={{ newPlatform: '', newLink: '' }}
         onSubmit={(values, { resetForm }) => {

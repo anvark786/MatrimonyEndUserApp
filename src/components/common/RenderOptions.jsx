@@ -73,6 +73,7 @@ const RenderOptions = () => {
     })
 
     const financialStatus = [
+        { value: '', label: 'Select Financial Status' },
         { value: "ritch", label: "Ritch" },
         { value: "upper", label: "Upper Middle Class" },
         { value: "middle", label: "Middle Class" },
@@ -99,6 +100,7 @@ const RenderOptions = () => {
     }
 
     const bloodGroupOptions = [
+        { value: '', label: 'Select Blood group' },
         { value: 'A+', label: 'A+' },
         { value: 'A-', label: 'A-' },
         { value: 'B+', label: 'B+' },
@@ -110,6 +112,7 @@ const RenderOptions = () => {
     ];
 
     const maritalStatusOptions = [
+        { value: '', label: 'Select marital Status' },
         { value: 'Single', label: 'Single' },
         { value: 'Married', label: 'Married' },
         { value: 'Divorced', label: 'Divorced' },
@@ -117,6 +120,7 @@ const RenderOptions = () => {
     ];
 
     const physicalStatusOptions = [
+        { value: '', label: 'Select Physical Status' },
         { value: 'normal_person', label: 'Normal Person' },
         { value: 'deaf_or_dumb', label: 'Deaf/Dumb' },
         { value: 'blind', label: 'Blind' },
@@ -126,6 +130,7 @@ const RenderOptions = () => {
     ];
 
     const communityOptions = [
+        { value: '', label: 'Select Community' },
         { value: 'A Muslim', label: 'A Muslim' },
         { value: 'Ahle Hadees', label: 'Ahle Hadees' },
         { value: 'Bohra', label: 'Bohra' },
@@ -150,6 +155,7 @@ const RenderOptions = () => {
     ];
 
     const educationOptions = [
+        { value: '', label: 'Select Education' },
         { value: 'sslc', label: 'SSLC' },
         { value: 'pls_two', label: 'Plus Two' },
         { value: 'degree', label: 'Bachelor Degree' },
@@ -157,6 +163,7 @@ const RenderOptions = () => {
     ];
 
     const complexionOptions = [
+        { value: '', label: 'Complexion' },
         { value: 'very_fair', label: 'Very Fair' },
         { value: 'fair', label: 'Fair' },
         { value: 'wheatish', label: 'Wheatish' },

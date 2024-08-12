@@ -70,11 +70,11 @@ const Preferences = () => {
     const handleSubmit = async (values) => {    
         try {
 
-          let method, url,message;
+          let method, url,message,form_data;
 
-          [method, url,message] = profileData.partner_preference ? ["patch", "/preferences/"+partnerPreference?.id+"/","updated"] : ["post", "/preferences/","saved"];
+          [method, url,message,form_data] = profileData.partner_preference ? ["patch", "/preferences/"+partnerPreference?.id+"/","updated",values] : ["post", "/preferences/","saved",{...values,"profile":profileData?.id}];
     
-          const response = await callCommonInternalApiService(url,method,values)
+          const response = await callCommonInternalApiService(url,method,form_data)
           if(response){
             setSaved(true)
             const updatedUserData = {

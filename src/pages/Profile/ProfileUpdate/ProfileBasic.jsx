@@ -7,6 +7,7 @@ import Sidebar from '../../../components/common/Sidebar';
 import profileUpdateService from '../../../services/profileUpdateService';
 import callCommonInternalApiService from '../../../services/callCommonInternalApiService';
 import { toast } from 'react-toastify';
+import RenderOptions from '../../../components/common/RenderOptions';
 
 
 const ProfileBasic = () => {
@@ -14,6 +15,7 @@ const ProfileBasic = () => {
   const [communityOptions, setCommunityOptions] = useState([{ label: 'Select Community', value: '' },])
   const [religionOptions, setReligionOptions] = useState([{ label: 'Select Religion', value: '' },])
   const userData = JSON.parse(localStorage.getItem('userData'));
+  const { maritalStatusOptions, physicalStatusOptions } = RenderOptions();    
 
   const [saved, setSaved] = useState(false)
   
@@ -21,7 +23,9 @@ const ProfileBasic = () => {
   useEffect(() => {
     getReligions();
     getCommunities();
-    getProfileData();
+    if(userData?.profile_uuid){
+       getProfileData();
+    }
 
   }, []);
 
@@ -67,6 +71,8 @@ const ProfileBasic = () => {
       sessionStorage.setItem('profileData', JSON.stringify(response));
       setInitialValues({
         date_of_birth: response?.date_of_birth,
+        marital_status:response?.marital_status,
+        physical_status:response?.physical_status,
         height: response?.height,
         weight: response?.weight,
         complexion: response?.complexion,
@@ -103,22 +109,27 @@ const ProfileBasic = () => {
   ];
 
   const fields = [
+    { name: 'marital_status', label: 'Marital Status', placeholder: 'Select Marital Status', type: "select", options: maritalStatusOptions },
     { name: 'date_of_birth', label: 'Date of Birth', placeholder: 'Enter your Date of Birth', type: "date" },
     { name: 'height', label: 'Height', placeholder: 'Enter your height', type: "number" },
     { name: 'weight', label: 'Weight', placeholder: 'Enter your weight', type: "number" },
     { name: 'complexion', label: 'Complexion', placeholder: 'Choose your complexion', type: "select", options: complexionOptions },
     { name: 'blood_group', label: 'Blood Group', placeholder: 'Choose your blood group', type: "select", options: bloodGroupOptions },
+    { name: 'physical_status', label: 'Physical Status', placeholder: 'Select Physical Status', type: "select", options: physicalStatusOptions },
+
     // { name: 'religion', label: 'Religion', placeholder: 'Choose your religion', type: "select", options: religionOptions },
     { name: 'community', label: 'Community', placeholder: 'Choose your community', type: "select", options: communityOptions },
     { name: 'bio', label: 'Profile Description', placeholder: 'Enter more details about you', type: "textarea" },
   ];
 
   const initialData = {
+    marital_status:'',
     date_of_birth: '',
     height: '',
     weight: '',
     complexion: '',
     blood_group: '',
+    physical_status:'',
     community: '',
     bio: '',
   };
@@ -126,7 +137,10 @@ const ProfileBasic = () => {
 
 
   const validationSchema = Yup.object({
+    marital_status: Yup.string().required('Marital Status is required'),
     date_of_birth: Yup.string().required('Date of birth is required'),
+    physical_status: Yup.string().required('Physical Status is required'),
+
     height: Yup.string().required('Height is required'),
     weight: Yup.string().required('Weight is required'),
     complexion: Yup.string().required('Complexion is required'),
@@ -137,11 +151,11 @@ const ProfileBasic = () => {
 
   const handleSubmit = async (values) => {
     try {
-      let method, url,message;
+      let method, url,message,form_data;
 
-      [method, url,message] = initialValues?.date_of_birth !== '' ? ["patch", "/profiles/"+userData?.profile_id+"/","updated"] : ["post", "/profiles/","saved"];
+      [method, url,message,form_data] = initialValues?.date_of_birth !== '' ? ["patch", "/profiles/"+userData?.profile_id+"/","updated",values] : ["post", "/profiles/","saved",{...values,"user":userData?.user_id}];
 
-      const response = await callCommonInternalApiService(url,method,values)
+      const response = await callCommonInternalApiService(url,method,form_data)
       if (response) {
         const data = {
           ...userData,

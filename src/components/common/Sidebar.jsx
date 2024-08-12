@@ -17,7 +17,7 @@ import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 
 
-const Sidebar = ({hide_profile}) => {
+const Sidebar = () => {
 
   const userData = JSON.parse(localStorage.getItem('userData'));
 
@@ -34,6 +34,7 @@ const Sidebar = ({hide_profile}) => {
 
   const logout = () => {
     localStorage.removeItem('userData');
+    sessionStorage.clear()
      window.location.href = '/profile';
   };
   const checkTokenExpiration = () => {
@@ -44,6 +45,7 @@ const Sidebar = ({hide_profile}) => {
     if (accessToken&& expirationTimestamp) {
       if (currentTimestamp >= expirationTimestamp) { 
         localStorage.removeItem('userData');
+        sessionStorage.clear()
         toast.error("Session Expired,Please Login Again!.", {
           onOpen: () => {
              window.location.href = '/profile';; 
@@ -85,7 +87,7 @@ const Sidebar = ({hide_profile}) => {
           </Link>
         </div>
         <div className="sidebar-items">
-        <Link to={""} onClick={()=>hide_profile()}>
+        <Link to={"/profile/hide-profile"}>
           <FontAwesomeIcon icon={userData?.is_hidden ? faEye : faEyeSlash} />
           <span>{userData?.is_hidden ? "Unhide Profile" : "Hide Profile"}</span>
         </Link>

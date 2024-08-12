@@ -18,9 +18,7 @@ const Address = () => {
     const [renderLocationOptions, setRenderLocationOptions] = useState([{ value: "", label: "Select Village" }]);
 
 
-    const { stateData, districtOptions } = RenderOptions();
-    
-    const [address, setAddress] = useState(profileData.address || initialValues);
+    const { stateData, districtOptions } = RenderOptions();    
 
     
     useEffect(() => {
@@ -67,6 +65,8 @@ const Address = () => {
 
 
     };
+    
+    const [address, setAddress] = useState(profileData.address || initialValues);
 
 
     const validationSchema = Yup.object({
@@ -82,11 +82,11 @@ const Address = () => {
 
     const handleSubmit = async (values) => {
         try {
-            let method, url,message;
+            let method, url,message,form_data;
 
-            [method, url,message] = profileData.address ? ["patch", "/address/"+address?.id+"/","updated"] : ["post", "/address/","saved"];
+            [method, url,message,form_data] = profileData.address ? ["patch", "/address/"+address?.id+"/","updated",values] : ["post", "/address/","saved",{...values,"profile":profileData?.id}];
       
-            const response = await callCommonInternalApiService(url,method,values)
+            const response = await callCommonInternalApiService(url,method,form_data)
             if (response) {
                 setSaved(true)
                 sessionStorage.setItem('profileData', JSON.stringify({...profileData,address:response}));

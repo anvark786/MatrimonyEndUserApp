@@ -18,6 +18,7 @@ const Header = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('userData');
+    sessionStorage.clear()
     window.location.href = '/login';
   };
 

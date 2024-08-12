@@ -94,7 +94,7 @@ export const handleFieldChangeOnDistrict = (name, value, stateData, renderCityOp
 		cityOptions.length = 0;
 		cityOptions.push(defaultCityOption)
 		if (filteredDistrict.length > 0) {
-			filteredDistrict[0].subDistricts.map((item) => {
+			filteredDistrict[0]?.subDistricts.map((item) => {
 				cityOptions.push({
 					value: item?.subDistrict,
 					label: item?.subDistrict,
@@ -109,7 +109,7 @@ export const handleFieldChangeOnDistrict = (name, value, stateData, renderCityOp
 		console.log(filteredCity);
 		locationOptions.length = 0;
 		locationOptions.push(defaultLocationOption);
-		filteredCity[0].villages.map((item) => {
+		filteredCity[0]?.villages.map((item) => {
 			locationOptions.push({
 				value: item,
 				label: item
