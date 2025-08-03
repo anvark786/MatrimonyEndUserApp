@@ -179,10 +179,8 @@ const ProfileBasic = () => {
       <Header />
       <Container fluid>
         <Row>
-          <Col md={3} style={{ backgroundColor: "#f4f4f4" }}>
-            <Sidebar />
-          </Col>
-          <Col md={9} className="profile-content">
+          
+          <Col md={8} className="profile-content">
             <h2 className='mb-4'>Basic Profile</h2>
             <div>
               <ProfileForm fields={fields}
@@ -194,6 +192,9 @@ const ProfileBasic = () => {
                 refresh={true} 
                />
             </div>
+          </Col>
+          <Col md={3} style={{ backgroundColor: "#f4f4f4" }}>
+            <Sidebar />
           </Col>
         </Row>
       </Container>

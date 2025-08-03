@@ -26,11 +26,11 @@ const Register = () => {
         if (ApiResponse) {
           const userData = {
             user_id: ApiResponse?.user_data?.id,
-            access_token: ApiResponse?.access_token,
+            access_token: ApiResponse?.access_token, // Keep token for API calls
             profile_id: null,
-            has_completed_signup:false,
-            is_hidden:false            
-
+            has_completed_signup: false,
+            is_hidden: false,
+            username: values.username // Store username for session management
           };
           localStorage.setItem('userData', JSON.stringify(userData));
           toast.success(ApiResponse.message, {

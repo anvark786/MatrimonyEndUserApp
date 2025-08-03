@@ -9,7 +9,6 @@ import socialService from '../../services/socialService';
 import { useParams } from 'react-router-dom';
 import Sidebar from '../../components/common/Sidebar';
 import Header from '../../components/common/Header';
-import { Container, Row, Col } from 'react-bootstrap';
 import ReligiousInfoSection from '../../components/profiles/ProfileDetails/ReligiousInfoSection';
 import EducationInfoSection from '../../components/profiles/ProfileDetails/EducationInfoSection';
 import OccupationInfoSection from '../../components/profiles/ProfileDetails/OccupationInfoSection';
@@ -18,7 +17,7 @@ import PartnerPreferencesSection from '../../components/profiles/ProfileDetails/
 import SocialAccounts from '../../components/profiles/ProfileDetails/SocialAccounts';
 
 const ProfileDetails = ({ match }) => {
-    const [ProfileDetails, setProfileDetailse] = useState({});
+    const [ProfileDetails, setProfileDetails] = useState({});
     const [photos, setPhotos] = useState([]);
     const { uuid } = useParams();
     const userData = JSON.parse(localStorage.getItem('userData'));
@@ -34,7 +33,7 @@ const ProfileDetails = ({ match }) => {
         try {
             const response = await profileUpdateService.getProfileDetails(uuid);
             console.log("resssssss", response);
-            setProfileDetailse(response);
+            setProfileDetails(response);
             setPhotos(response?.photos)
         } catch (error) {
             toast.error(error?.error);
@@ -79,49 +78,109 @@ const ProfileDetails = ({ match }) => {
         centerPadding: '0',
         focusOnSelect: true,
         arrows: true,
-
     };
 
     return (
-        <div>
+        <>
             <Header />
-            <Container fluid>
-
-                <Row>
-                    <Col md={3}>
-                        <Sidebar />
-                    </Col>
-                    <Col md={9} className="profile-content">
-                        <h3 className='mb-4'>Profile Details</h3>
-                        <Row className='mb-4'>
-                            <Col md={12}>
-                                <Slider {...sliderSettings} className="center-slider">
-                                    {photos && photos.map((item, ind) => {
-                                        return (
-                                            <div key={ind}>
-                                                <img src={item?.image} alt={`Photo of ${ind}`} />
-                                            </div>
-                                        )
-                                    })}
-                                </Slider>
-                            </Col>
-                        </Row>
+            <div className="profile-page-container" style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start' }}>
+                {/* Sidebar: always left, unique */}
+                <div 
+                    className="profile-sidebar"
+                    style={{
+                        minWidth: '250px',
+                        display: 'block',
+                        borderRight: '1px solid #eee',
+                        height: '100%',
+                        background: '#fff'
+                    }}
+                >
+                    <Sidebar />
+                </div>
+                {/* Main Content */}
+                <div className="profile-main-content" style={{ flex: 1, paddingLeft: '32px' }}>
+                    <div className="profile-content">
+                        <h3 className='mb-4' style={{color: 'var(--text-primary)', fontSize: '2rem', fontWeight: '700', marginBottom: '2rem'}}>
+                            Profile Details
+                        </h3>
                         
-                        <div className="profile-detail">
-                            
-                            <BasicInfoSection data={ProfileDetails} className="mb-2" />
-                            <ReligiousInfoSection data={ProfileDetails?.religous_data} className="mb-2" />
-                            <EducationInfoSection data={ProfileDetails?.education} className="mb-2" />
-                            <OccupationInfoSection data={ProfileDetails?.occupation} className="mb-2" />
-                            <FamilyInfoSection data={ProfileDetails?.family_details} className="mb-2" />
-                            <PartnerPreferencesSection data={ProfileDetails?.partner_preference} className="mb-2" />
-                            {ProfileDetails?.social_links&&<SocialAccounts data ={ProfileDetails?.social_links } is_Locked={ProfileDetails?.is_locked_social_accounts} hasSubmittedRequest={hasSubmittedRequest} submittedRequest={submittedRequest} handleSubmit={handleSubmitAccessRequest} className="" />}
+                        {/* Photo Slider */}
+                        {photos && photos.length > 0 && (
+                            <div className="profile-section" style={{ marginBottom: '2rem' }}>
+                                <div className="profile-section-title">
+                                    <i className="fas fa-images" style={{color: 'var(--primary-color)'}}></i>
+                                    <span>Photos</span>
+                                </div>
+                                <Slider {...sliderSettings} className="center-slider">
+                                    {photos.map((item, ind) => (
+                                        <div key={ind}>
+                                            <img 
+                                                src={item?.image} 
+                                                alt={`Photo of ${ind}`} 
+                                                style={{
+                                                    width: '100%', 
+                                                    height: '300px', 
+                                                    objectFit: 'cover', 
+                                                    borderRadius: '12px',
+                                                    boxShadow: 'var(--shadow-md)'
+                                                }} 
+                                            />
+                                        </div>
+                                    ))}
+                                </Slider>
+                            </div>
+                        )}
+                        
+                        {/* Profile Sections - visually separated */}
+                        <div className="profile-sections-container">
+                            <div style={{ marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '1px solid #eee' }}>
+                                <BasicInfoSection data={ProfileDetails} className="mb-2" />
+                            </div>
+                            <div style={{ marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '1px solid #eee' }}>
+                                <ReligiousInfoSection data={ProfileDetails?.religous_data} className="mb-2" />
+                            </div>
+                            <div style={{ marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '1px solid #eee' }}>
+                                <EducationInfoSection data={ProfileDetails?.education} className="mb-2" />
+                            </div>
+                            <div style={{ marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '1px solid #eee' }}>
+                                <OccupationInfoSection data={ProfileDetails?.occupation} className="mb-2" />
+                            </div>
+                            <div style={{ marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '1px solid #eee' }}>
+                                <FamilyInfoSection data={ProfileDetails?.family_details} className="mb-2" />
+                            </div>
+                            <div style={{ marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '1px solid #eee' }}>
+                                <PartnerPreferencesSection data={ProfileDetails?.partner_preference} className="mb-2" />
+                            </div>
+                            {ProfileDetails?.social_links && (
+                                <div style={{ marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '1px solid #eee' }}>
+                                    <SocialAccounts 
+                                        data={ProfileDetails?.social_links} 
+                                        is_Locked={ProfileDetails?.is_locked_social_accounts} 
+                                        hasSubmittedRequest={hasSubmittedRequest} 
+                                        submittedRequest={submittedRequest} 
+                                        handleSubmit={handleSubmitAccessRequest} 
+                                        className="" 
+                                    />
+                                </div>
+                            )}
                         </div>
-                    </Col>
-                </Row>
-            </Container>
-        </div>
+                    </div>
+                </div>
+            </div>
+            <style>
+                {`
+                    @media (max-width: 768px) {
+                        .profile-sidebar {
+                            display: none !important;
+                        }
+                        .profile-main-content {
+                            padding-left: 0 !important;
+                        }
+                    }
+                `}
+            </style>
+        </>
     );
-};
+}
 
 export default ProfileDetails;

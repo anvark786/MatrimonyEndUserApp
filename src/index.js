@@ -3,13 +3,15 @@ import ReactDOM from 'react-dom';
 import './index.css'; // Import your global styles
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration'; 
 
-// Add the theme class to the root element
+// Mount the app
 ReactDOM.render(
   <React.StrictMode>
-    <div>
-      <App />
-    </div>
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );
+
+// Register the service worker to enable PWA features
+serviceWorkerRegistration.register();

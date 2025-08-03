@@ -1,16 +1,30 @@
 
-import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
-import '../../assets/styles/Style.css'
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell, faUser, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import { 
+  faBell, 
+  faUser, 
+  faSignOutAlt, 
+  faSearch, 
+  faHeart, 
+  faComments, 
+  faCrown,
+  faBars,
+  faTimes
+} from '@fortawesome/free-solid-svg-icons';
+import { Link, useLocation } from 'react-router-dom';
+import '../../assets/styles/Style.css';
 
 const Header = () => {
   const [showDropdown, setShowDropdown] = useState(false);
-  const userData = JSON.parse(localStorage.getItem('userData'));
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const location = useLocation();
+
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem('userData'));
+    setUserData(data);
+  }, []);
 
   const handleDropdownToggle = () => {
     setShowDropdown(!showDropdown);
@@ -18,84 +32,142 @@ const Header = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('userData');
-    sessionStorage.clear()
+    sessionStorage.clear();
     window.location.href = '/login';
   };
 
-  const reDrirectUrl = ()=> {
-    if(userData?.has_completed_signup){
-      return "/profile"
+  const redirectUrl = () => {
+    if (userData?.has_completed_signup) {
+      return "/profile";
     }
-    else return "#"
-  }
+    return "#";
+  };
+
+  const isActive = (path) => {
+    return location.pathname === path;
+  };
+
+  const toggleMobileMenu = () => {
+    setShowMobileMenu(!showMobileMenu);
+  };
 
   return (
     <header className="header">
       <div className="container">
-        <nav className="navbar navbar-expand-lg navbar-light">
-          <Link className="navbar-brand" to={reDrirectUrl()}>
+        <nav className="navbar">
+          <Link className="navbar-brand" to={redirectUrl()}>
+            <FontAwesomeIcon icon={faHeart} className="brand-icon" />
             Shaddikarro
           </Link>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>       
-          {userData?.has_completed_signup&&<div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav ml-auto">
-              <li className="nav-item active">
-                <Link className="nav-link" to="/profile">Home</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/profile/search-profile">Search</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="#">Matches</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="#">Messages</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="#">Upgrade</Link>
-              </li>
-            </ul>
-          </div>}
 
-          <div className="navbar-icons">
-            {userData?.has_completed_signup&&<Link to="#" className="navbar-icon">
-              <FontAwesomeIcon icon={faBell} />
-            </Link>}
-            <Link
-              to="#"
-              className="navbar-icon dropdown-toggle"
-              onClick={handleDropdownToggle}
-            >
-              <FontAwesomeIcon icon={faUser} />
-            </Link>
-            {showDropdown && (
-              <div className="profile-dropdown">
-                <ul>
-                  {/* <li>
-                    <Link to="#">Profile</Link>
-                  </li>
-                  <li>
-                    <Link to="#">Settings</Link>
-                  </li> */}
-                  <li>
-                    <Link to="#" onClick={handleLogout}>
-                      <FontAwesomeIcon icon={faSignOutAlt} />
-                      Logout
-                    </Link>
-                  </li>
-                </ul>
-              </div>
+          {/* Mobile Menu Toggle */}
+          <button
+            className="mobile-menu-toggle"
+            onClick={toggleMobileMenu}
+            aria-label="Toggle mobile menu"
+          >
+            <FontAwesomeIcon icon={showMobileMenu ? faTimes : faBars} />
+          </button>
+
+          {/* Desktop Navigation */}
+          {userData?.has_completed_signup && (
+            <div className={`navbar-nav ${showMobileMenu ? 'show' : ''}`}>
+              <Link 
+                className={`nav-link ${isActive('/profile') ? 'active' : ''}`} 
+                to="/profile"
+                onClick={() => setShowMobileMenu(false)}
+              >
+                <FontAwesomeIcon icon={faUser} className="nav-icon" />
+                Home
+              </Link>
+              <Link 
+                className={`nav-link ${isActive('/profile/search-profile') ? 'active' : ''}`} 
+                to="/profile/search-profile"
+                onClick={() => setShowMobileMenu(false)}
+              >
+                <FontAwesomeIcon icon={faSearch} className="nav-icon" />
+                Search
+              </Link>
+              <Link 
+                className={`nav-link ${isActive('/matches') ? 'active' : ''}`} 
+                to="#"
+                onClick={() => setShowMobileMenu(false)}
+              >
+                <FontAwesomeIcon icon={faHeart} className="nav-icon" />
+                Matches
+              </Link>
+              <Link 
+                className={`nav-link ${isActive('/messages') ? 'active' : ''}`} 
+                to="#"
+                onClick={() => setShowMobileMenu(false)}
+              >
+                <FontAwesomeIcon icon={faComments} className="nav-icon" />
+                Messages
+              </Link>
+              <Link 
+                className={`nav-link ${isActive('/upgrade') ? 'active' : ''}`} 
+                to="#"
+                onClick={() => setShowMobileMenu(false)}
+              >
+                <FontAwesomeIcon icon={faCrown} className="nav-icon" />
+                Upgrade
+              </Link>
+            </div>
+          )}
+
+          {/* User Actions */}
+          <div className="navbar-actions">
+            {userData?.has_completed_signup && (
+              <Link to="#" className="navbar-icon notification-icon">
+                <FontAwesomeIcon icon={faBell} />
+                <span className="notification-badge">3</span>
+              </Link>
             )}
+            
+            <div className="user-dropdown">
+              <button
+                className="navbar-icon user-icon"
+                onClick={handleDropdownToggle}
+                aria-label="User menu"
+              >
+                <FontAwesomeIcon icon={faUser} />
+              </button>
+              
+              {showDropdown && (
+                <div className="profile-dropdown">
+                  <div className="dropdown-header">
+                    <div className="user-avatar">
+                      <FontAwesomeIcon icon={faUser} />
+                    </div>
+                    <div className="user-info">
+                      <span className="user-name">Welcome back!</span>
+                      <span className="user-email">{userData?.email || 'User'}</span>
+                    </div>
+                  </div>
+                  <div className="dropdown-divider"></div>
+                  <ul>
+                    <li>
+                      <Link to="/profile" onClick={() => setShowDropdown(false)}>
+                        <FontAwesomeIcon icon={faUser} />
+                        My Profile
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="#" onClick={() => setShowDropdown(false)}>
+                        <FontAwesomeIcon icon={faCrown} />
+                        Premium Features
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="#" onClick={handleLogout}>
+                        <FontAwesomeIcon icon={faSignOutAlt} />
+                        Logout
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </div>
           </div>
         </nav>
       </div>

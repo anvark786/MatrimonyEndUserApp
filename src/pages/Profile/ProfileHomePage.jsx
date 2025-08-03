@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 import Header from '../../components/common/Header';
 import Sidebar from '../../components/common/Sidebar';
@@ -86,12 +85,9 @@ const ProfileHomePage = () => {
   return (
     <div>
       <Header />
-      <Container fluid>
-        <Row>
-          <Col md={3} style={{ backgroundColor: "#f4f4f4" }}>
-            <Sidebar/>
-          </Col>
-          <Col md={9} className="profile-content">
+      <div className="profile-page-container">
+        <div className="profile-main-content">
+          <div className="profile-content">
             {profileData&&profileData.length > 0 ? (
               <div>
                 <ProfileList profiles={profileData} />
@@ -100,9 +96,13 @@ const ProfileHomePage = () => {
             ) : (
               <p>no profile data found...</p>
             )}
-          </Col>
-        </Row>
-      </Container>
+          </div>
+        </div>
+        
+        <div className="profile-sidebar">
+          <Sidebar/>
+        </div>
+      </div>
       <Footer />
     </div>
   );
