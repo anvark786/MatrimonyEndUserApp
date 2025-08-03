@@ -7,13 +7,16 @@ WORKDIR /app
 # Copy package.json and yarn.lock before other files
 COPY package.json yarn.lock ./
 
-# Install dependencies (including react-scripts)
+# Install dependencies
 RUN yarn install --frozen-lockfile
 
 # Copy the rest of the app
 COPY . .
 
-# Expose port 3000 for dev server
+# Set environment variable for polling
+ENV CHOKIDAR_USEPOLLING=true
+
+# Expose port 3000
 EXPOSE 3000
 
 # Start React development server

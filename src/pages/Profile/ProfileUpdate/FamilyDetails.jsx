@@ -98,11 +98,8 @@ const FamilyDetails = () => {
         <div>
             <Header />
             <Container fluid>
-                <Row>
-                    <Col md={3} style={{ backgroundColor: "#f4f4f4" }}>
-                        <Sidebar />
-                    </Col>
-                    <Col md={9} className="profile-content">
+                <Row>                    
+                    <Col md={8} className="profile-content">
                         <h2 className='mb-4'>Family Details</h2>
                         <div>
                         <ProfileForm fields={fields} 
@@ -114,6 +111,9 @@ const FamilyDetails = () => {
                         urlBack="/profile/update/occupational-info"
                         />
                         </div>
+                    </Col>
+                    <Col md={3} style={{ backgroundColor: "#f4f4f4" }}>
+                        <Sidebar />
                     </Col>
                 </Row>
             </Container>

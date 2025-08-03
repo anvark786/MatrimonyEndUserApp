@@ -141,7 +141,7 @@ const Header = () => {
                     </div>
                     <div className="user-info">
                       <span className="user-name">Welcome back!</span>
-                      <span className="user-email">{userData?.email || 'User'}</span>
+                      <span className="user-email">{userData?.username || 'User'}</span>
                     </div>
                   </div>
                   <div className="dropdown-divider"></div>

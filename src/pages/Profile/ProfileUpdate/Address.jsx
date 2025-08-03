@@ -105,10 +105,7 @@ const Address = () => {
             <Header />
             <Container fluid>
                 <Row>
-                    <Col md={3} style={{ backgroundColor: "#f4f4f4" }}>
-                        <Sidebar />
-                    </Col>
-                    <Col md={9} className="profile-content">
+                    <Col md={8} className="profile-content">
                         <h2 className='mb-4'>Address</h2>
                         <div>
                             <ProfileForm
@@ -122,6 +119,9 @@ const Address = () => {
                                 onFieldChange={handleFieldChange}
                             />
                         </div>
+                    </Col>
+                    <Col md={3} style={{ backgroundColor: "#f4f4f4" }}>
+                        <Sidebar />
                     </Col>
                 </Row>
             </Container>

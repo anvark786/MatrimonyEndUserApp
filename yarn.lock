@@ -5196,11 +5196,6 @@ globby@^11.0.4, globby@^11.1.0:
     merge2 "^1.4.1"
     slash "^3.0.0"
 
-google-libphonenumber@^3.2.35:
-  version "3.2.35"
-  resolved "https://registry.yarnpkg.com/google-libphonenumber/-/google-libphonenumber-3.2.35.tgz#887bbac68b0e13c6a3a52e3971129b320ceb1759"
-  integrity sha512-en9hgw54urlwBT0F+IULsJmdpeLpq5aQoTONIdp5jVIRviONPMfplUKdaCPBrHBlZNm49iVuZGR/V05IWqlvLQ==
-
 gopd@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/gopd/-/gopd-1.0.1.tgz#29ff76de69dac7489b7c0918a5788e56477c332c"
@@ -8171,6 +8166,11 @@ react-fast-compare@^2.0.1:
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-2.0.4.tgz#e84b4d455b0fec113e0402c329352715196f81f9"
   integrity sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw==
 
+react-image-gallery@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/react-image-gallery/-/react-image-gallery-1.4.0.tgz#ceb16273b9163831a11579d37d036272a0a38b4b"
+  integrity sha512-m7xLq7+g6/xh+BhVMAxvRU0132sNcEFglYsVsgthrnItl9VtLE7MuVvVWD9pvzcI+WBP5+p9HvnRwIiyhPkBDg==
+
 react-international-phone@^4.2.4:
   version "4.2.4"
   resolved "https://registry.yarnpkg.com/react-international-phone/-/react-international-phone-4.2.4.tgz#2c2836cf7eaaa5955dba8247f095faa2f3cb4435"
@@ -8195,6 +8195,11 @@ react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
+
+react-photo-album@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/react-photo-album/-/react-photo-album-3.1.0.tgz#90ca5b116341543ced3024c580ebeb06394c1cfe"
+  integrity sha512-9PiWzwvckfefJRHY5E6kcNKoWNjyyFKhQ6Pl5nS1Z29QeP9h8zDOAoVQKWcv/AhZjRoduw1dybu9RNMj0+uPzQ==
 
 react-refresh@^0.11.0:
   version "0.11.0"
@@ -10195,6 +10200,11 @@ yargs@^16.2.0:
     string-width "^4.2.0"
     y18n "^5.0.5"
     yargs-parser "^20.2.2"
+
+yet-another-react-lightbox@^3.25.0:
+  version "3.25.0"
+  resolved "https://registry.yarnpkg.com/yet-another-react-lightbox/-/yet-another-react-lightbox-3.25.0.tgz#9d3f92b9ac7b58cbbe007311d499c2ed34711bcc"
+  integrity sha512-NaCeEXCpdwoTvoOpxNK9gdW8+oHs79yVH+D2YeVQWRjH5i32e5CoXndAAFP2p8awzVYfSonherrE9JMTpfD3EA==
 
 yocto-queue@^0.1.0:
   version "0.1.0"

@@ -73,12 +73,12 @@ const SocialRequests = () => {
     <div>
       <Header />
       <Container fluid>
-        <Row>
+        <Row>         
+          <Col md={8} className="profile-content">
+            <HandleRequests recivedRequests={recivedRequests} pageLimit={limit} setPage={setPage} totalRecivedDataCounts={recivedCount} manageRequests={handleSocialRequests} sentRequests={sentRequests} totalSentDataCounts={sentCount} />
+          </Col>
           <Col md={3} style={{ backgroundColor: "#f4f4f4" }}>
             <Sidebar />
-          </Col>
-          <Col md={9} className="profile-content">
-            <HandleRequests recivedRequests={recivedRequests} pageLimit={limit} setPage={setPage} totalRecivedDataCounts={recivedCount} manageRequests={handleSocialRequests} sentRequests={sentRequests} totalSentDataCounts={sentCount} />
           </Col>
         </Row>
       </Container>

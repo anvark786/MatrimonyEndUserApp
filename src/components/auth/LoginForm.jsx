@@ -113,6 +113,11 @@ const LoginForm = ({ onSubmit, response }) => {
                                     Create Account
                                 </Link>
                             </p>
+                            <p>
+                                <Link to="/forgot-password" className="link-secondary">
+                                    Forgot Password?
+                                </Link>
+                            </p>
                             <p className="text-muted small">
                                 By signing in, you agree to our{' '}
                                 <Link to="/terms" className="link-secondary">
@@ -122,6 +127,7 @@ const LoginForm = ({ onSubmit, response }) => {
                                 <Link to="/privacy" className="link-secondary">
                                     Privacy Policy
                                 </Link>
+
                             </p>
                         </div>
                     </Form>

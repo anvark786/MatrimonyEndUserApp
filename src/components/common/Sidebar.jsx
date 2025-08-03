@@ -169,7 +169,7 @@ const Sidebar = () => {
                 <FontAwesomeIcon icon={userData?.is_hidden ? faEye : faEyeSlash} />
                 <span>{userData?.is_hidden ? "Unhide Profile" : "Hide Profile"}</span>
               </Link>
-              <Link to={""} onClick={isMobile ? closeSidebar : undefined}>
+              <Link to="/profile/edit-password" onClick={isMobile ? closeSidebar : undefined}>
                 <FontAwesomeIcon icon={faKey} />
                 <span>Edit Password</span>
               </Link>

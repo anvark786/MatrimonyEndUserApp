@@ -20,7 +20,9 @@ import SocialMediaManagement from '../../pages/Profile/ManageSocialAccounts/Soci
 import SocialRequests from '../../pages/Profile/ManageSocialAccounts/SocialRequests';
 import ProfileSearch from '../../pages/Profile/ProfileSearch';
 import ManageHideProfile from '../../pages/Profile/ManageHideProfile';
-
+import EditPassword from '../../pages/EditPassword/EditPassword';
+import HomePage from '../../pages/HomePage';
+import ForgotPassword from '../../pages/ForgotPassword';
 
 const MainRoutes = () => {
   const ProtectedProfilePage = withCompleteAuth(ProfileHomePage)
@@ -36,14 +38,16 @@ const MainRoutes = () => {
   const ProtectedSocialRequests= withCompleteAuth(SocialRequests)
   const ProtectedProfileSearch= withCompleteAuth(ProfileSearch)
   const ProtectedManageHideProfile= withCompleteAuth(ManageHideProfile)
+  const ProtectedEditPassword = withAuth(EditPassword)
 
   
   return (
     <Routes>
       {/* Routes accessible to all users */}
+      <Route exact path="/" element={<HomePage />} />
       <Route exact path="/login" element={<Login/>} />
       <Route exact path="/register" element={<Register/>} />
-     
+      <Route exact path="/forgot-password" element={<ForgotPassword />} />
 
      
        {/* Protected routes */}
@@ -60,6 +64,7 @@ const MainRoutes = () => {
       <Route exact path="/profile/handle-access-requests" element={<ProtectedSocialRequests/>}/>
       <Route exact path="/profile/search-profile" element={<ProtectedProfileSearch/>}/>
       <Route exact path="/profile/hide-profile" element={<ProtectedManageHideProfile/>} />
+      <Route exact path="/profile/edit-password" element={<ProtectedEditPassword />} />
 
 
 

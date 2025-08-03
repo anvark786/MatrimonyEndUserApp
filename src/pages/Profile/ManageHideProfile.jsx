@@ -46,11 +46,8 @@ const ManageHideProfile = () => {
         <div>
             <Header />
             <Container fluid>
-                <Row>
-                    <Col md={3} style={{ backgroundColor: "#f4f4f4" }}>
-                        <Sidebar />
-                    </Col>
-                    <Col md={9} className="profile-content p-4">
+                <Row>                  
+                    <Col md={8} className="profile-content p-4">
                         <div className="d-flex flex-column align-items-center justify-content-center" style={{ height: '80vh' }}>
                             <h4 className="mb-4 text-dark">Hide/UnHide Profile</h4>
                             <p className="mb-4 text-muted">
@@ -79,6 +76,9 @@ const ManageHideProfile = () => {
                                 <p>{`Are you sure you want to ${isHidden ? 'unhide' : 'hide'} your profile?`}</p>
                             </CustomModal>
                         </div>
+                    </Col>
+                    <Col md={3} style={{ backgroundColor: "#f4f4f4" }}>
+                        <Sidebar />
                     </Col>
                 </Row>
             </Container>

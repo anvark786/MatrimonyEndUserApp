@@ -179,10 +179,9 @@ const ProfileBasic = () => {
       <Header />
       <Container fluid>
         <Row>
-          
-          <Col md={8} className="profile-content">
+          <Col md={8} className="profile-content px-4 py-3">
             <h2 className='mb-4'>Basic Profile</h2>
-            <div>
+            <div className='py-3'>
               <ProfileForm fields={fields}
                 initialValues={initialValues} 
                 validationSchema={validationSchema} 
@@ -193,11 +192,11 @@ const ProfileBasic = () => {
                />
             </div>
           </Col>
-          <Col md={3} style={{ backgroundColor: "#f4f4f4" }}>
+          <Col md={3} className="ms-4" style={{ backgroundColor: "#f4f4f4" }}>
             <Sidebar />
           </Col>
         </Row>
-      </Container>
+    </Container>
     </div>
   );
 };

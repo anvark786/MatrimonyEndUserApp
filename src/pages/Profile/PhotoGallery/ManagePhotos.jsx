@@ -88,13 +88,13 @@ const ManagePhotos = ({ match }) => {
         <div>
             <Header />
             <Container fluid>
-                <Row>
-                    <Col md={3}>
-                        <Sidebar />
-                    </Col>
-                    <Col md={9} className="profile-content">
+                <Row>                   
+                    <Col md={8}className="profile-content">
                         <h4>Manage Photos</h4>
                         <PhotosSection images={images} handleImageUpload={handleImageUpload} handleRemoveImage={handleRemoveImage} handleUpdateImage={handleUpdateImage} imagesId={imagesId}/>
+                    </Col>
+                    <Col md={3} >
+                        <Sidebar />
                     </Col>
                 </Row>
             </Container>

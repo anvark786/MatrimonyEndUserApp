@@ -167,10 +167,10 @@ body {
 .mobile-menu-toggle {
   display: none;
   background: none;
-  border: none;
+    border: none;
   color: white;
   font-size: 1.25rem;
-  cursor: pointer;
+    cursor: pointer;
   padding: 0.5rem;
   border-radius: 0.5rem;
   transition: all 0.3s ease;
@@ -452,20 +452,20 @@ body {
   font-size: 1.1rem;
 }
 
-.sidebar-items a {
-  display: flex;
-  align-items: center;
+  .sidebar-items a {
+    display: flex;
+    align-items: center;
   gap: 0.75rem;
   padding: 0.75rem;
   color: var(--text-secondary);
-  text-decoration: none;
+    text-decoration: none;
   border-radius: 0.5rem;
   transition: all 0.3s ease;
   margin-bottom: 0.5rem;
   font-weight: 500;
-}
-
-.sidebar-items a:hover {
+  }
+  
+  .sidebar-items a:hover {
   color: var(--primary-color);
   background: rgba(139, 92, 246, 0.1);
   transform: translateX(5px);

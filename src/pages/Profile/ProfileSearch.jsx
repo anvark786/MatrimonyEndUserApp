@@ -83,10 +83,7 @@ const SearchPage = () => {
             <Header />
             <Container fluid>
                 <Row>
-                    <Col md={3} style={{ backgroundColor: "#f4f4f4" }}>
-                        <Sidebar />
-                    </Col>
-                    <Col md={9} className="profile-content">
+                    <Col md={8} className="profile-content">
                         <Container fluid>
                             <Tabs
                                 id="search-tabs"
@@ -547,6 +544,9 @@ const SearchPage = () => {
                                 </Tab>
                             </Tabs>
                         </Container>
+                    </Col>
+                     <Col md={3} style={{ backgroundColor: "#f4f4f4" }}>
+                        <Sidebar />
                     </Col>
                 </Row>
             </Container>

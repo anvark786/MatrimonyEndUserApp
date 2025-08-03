@@ -91,11 +91,8 @@ const SocialMediaManagement = () => {
     <div>
       <Header />
       <Container fluid>
-        <Row>
-          <Col md={3}>
-            <Sidebar />
-          </Col>
-          <Col md={9} className="profile-content">
+        <Row>         
+          <Col md={8}className="profile-content">
             {socialLinks &&
               <ManageSocial
                 socialLinks={socialLinks}
@@ -105,6 +102,9 @@ const SocialMediaManagement = () => {
                 handleEditSocialLink = {editSocialLink}
                 handleRemoveSocialLink={removeSocialLink}
               />}
+          </Col>
+           <Col md={3}>
+            <Sidebar />
           </Col>
         </Row>
       </Container>
