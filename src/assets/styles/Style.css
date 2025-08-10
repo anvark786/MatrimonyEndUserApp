@@ -713,6 +713,25 @@ body {
   font-size: 1rem;
 }
 
+/* Desktop fixes for profile detail rows */
+.profile-field {
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+/* Ensure the ':' separator doesn't reserve large width */
+.profile-field .profile-field-label.text-center {
+  min-width: auto;
+  width: auto;
+  flex: 0 0 auto;
+  padding: 0 6px;
+}
+/* Let values take remaining space and wrap as needed */
+.profile-field .profile-field-value {
+  flex: 1 1 auto;
+  white-space: normal;
+  word-break: break-word;
+}
+
 /* Form Styles */
 .form-field {
   margin-bottom: 1.5rem;
