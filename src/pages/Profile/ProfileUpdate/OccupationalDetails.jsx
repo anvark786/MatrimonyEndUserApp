@@ -12,6 +12,9 @@ import callCommonInternalApiService from '../../../services/callCommonInternalAp
 const OccupationalDetails = () => {   
     const [saved,setSaved] = useState(false)
     const profileData = JSON.parse(sessionStorage.getItem('profileData')) || {};
+    const userData = JSON.parse(localStorage.getItem('userData'));
+
+
     const professionsOptions = [
         { value: '', label: 'Select Profession Type' },
         { value: 'accountant', label: 'Accountant' },
@@ -109,7 +112,7 @@ const OccupationalDetails = () => {
         try {
         let method, url,message,form_data;
 
-        [method, url,message,form_data] = profileData.occupation ? ["patch", "/occupations/"+occupation?.id+"/","Updated",values] : ["post", "/occupations/","Saved",{...values,"profile":profileData?.id}];
+        [method, url,message,form_data] = profileData.occupation ? ["patch", "/occupations/"+occupation?.id+"/","Updated",values] : ["post", "/occupations/","Saved",{...values,"profile":userData?.profile_id}];
   
         const response = await callCommonInternalApiService(url,method,form_data)
           if(response){

@@ -12,6 +12,9 @@ import callCommonInternalApiService from '../../../services/callCommonInternalAp
 const Address = () => {
 
     const profileData = JSON.parse(sessionStorage.getItem('profileData')) || {};
+    const userData = JSON.parse(localStorage.getItem('userData'));
+
+
     const [saved,setSaved] = useState(profileData.address?true:false)
 
     const [renderCityOptions, setRenderCityOptions] = useState([{ value: "", label: "Select Taluk" }]);;
@@ -84,7 +87,7 @@ const Address = () => {
         try {
             let method, url,message,form_data;
 
-            [method, url,message,form_data] = profileData.address ? ["patch", "/address/"+address?.id+"/","updated",values] : ["post", "/address/","saved",{...values,"profile":profileData?.id}];
+            [method, url,message,form_data] = profileData.address ? ["patch", "/address/"+address?.id+"/","updated",values] : ["post", "/address/","saved",{...values,"profile":userData?.profile_id}];
       
             const response = await callCommonInternalApiService(url,method,form_data)
             if (response) {

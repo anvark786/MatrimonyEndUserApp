@@ -11,6 +11,8 @@ const FamilyDetails = () => {
 
     
     const profileData = JSON.parse(sessionStorage.getItem('profileData')) || {};
+    const userData = JSON.parse(localStorage.getItem('userData'));
+
     const [saved,setSaved] = useState(profileData.family_details?true:false)
 
 
@@ -77,7 +79,7 @@ const FamilyDetails = () => {
         try {
           let method, url,message,form_data;
 
-          [method, url,message,form_data] = profileData.family_details ? ["patch", "/family-details/"+familyDetails?.id+"/","Updated",values] : ["post", "/family-details/","Saved",{...values,"profile":profileData?.id}];
+          [method, url,message,form_data] = profileData.family_details ? ["patch", "/family-details/"+familyDetails?.id+"/","Updated",values] : ["post", "/family-details/","Saved",{...values,"profile":userData?.profile_id}];
     
           const response = await callCommonInternalApiService(url,method,form_data)
           console.log('profile--save:', response);

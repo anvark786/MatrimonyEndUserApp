@@ -11,8 +11,6 @@ const Preferences = () => {
 
     const profileData = JSON.parse(sessionStorage.getItem('profileData')) || {};
     const [saved,setSaved] = useState(profileData.partner_preference?true:false)
-
-
     const userData = JSON.parse(localStorage.getItem('userData'));
 
 
@@ -72,7 +70,7 @@ const Preferences = () => {
 
           let method, url,message,form_data;
 
-          [method, url,message,form_data] = profileData.partner_preference ? ["patch", "/preferences/"+partnerPreference?.id+"/","updated",values] : ["post", "/preferences/","saved",{...values,"profile":profileData?.id}];
+          [method, url,message,form_data] = profileData.partner_preference ? ["patch", "/preferences/"+partnerPreference?.id+"/","updated",values] : ["post", "/preferences/","saved",{...values,"profile":userData?.profile_id}];
     
           const response = await callCommonInternalApiService(url,method,form_data)
           if(response){
