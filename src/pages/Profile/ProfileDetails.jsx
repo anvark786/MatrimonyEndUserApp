@@ -4,9 +4,9 @@ import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
-import PhotoAlbum from "react-photo-album";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
 import BasicInfoSection from '../../components/profiles/ProfileDetails/BasicInfoSection';
 import { toast } from 'react-toastify';
 import profileUpdateService from '../../services/profileUpdateService';
@@ -21,6 +21,7 @@ import FamilyInfoSection from '../../components/profiles/ProfileDetails/FamilyIn
 import PartnerPreferencesSection from '../../components/profiles/ProfileDetails/PartnerPreferencesSection';
 import SocialAccounts from '../../components/profiles/ProfileDetails/SocialAccounts';
 import { Container, Row, Col } from 'react-bootstrap';
+import ProfileDetailsSkeleton from '../../components/profiles/ProfileDetails/ProfileDetailsSkeleton';
 
 const ProfileDetails = ({ match }) => {
     const [profileDetails, setProfileDetails] = useState({});
@@ -29,7 +30,9 @@ const ProfileDetails = ({ match }) => {
     const userData = JSON.parse(localStorage.getItem('userData'));
     const [hasSubmittedRequest, setHasSubmittedRequest] = useState(false);
     const [submittedRequest, setSubmittedRequest] = useState({});
-    const [index, setIndex] = useState(-1);
+    const [currentSlide, setCurrentSlide] = useState(0);
+    const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         getProfileDetails();
@@ -39,12 +42,14 @@ const ProfileDetails = ({ match }) => {
 
     const getProfileDetails = async () => {
         try {
+            setIsLoading(true);
             const response = await profileUpdateService.getProfileDetails(uuid);
-            console.log("resssssss", response);
             setProfileDetails(response);
             setPhotos(response?.photos);
         } catch (error) {
             toast.error(error?.error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -76,16 +81,24 @@ const ProfileDetails = ({ match }) => {
         }
     };
 
-    // Transform photos for gallery format
-    const galleryPhotos = photos?.map((photo, index) => ({
-        src: photo.image,
-        width: 800,
-        height: 600,
-        images: [
-            { src: photo.image, width: 800, height: 600 },
-            { src: photo.image, width: 400, height: 300 },
+    // Slider settings for compact horizontal gallery
+    const sliderSettings = {
+        dots: true,
+        arrows: true,
+        infinite: true,
+        speed: 500,
+        autoplay: true,
+        autoplaySpeed: 2500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        beforeChange: (_, next) => setCurrentSlide(next),
+        responsive: [
+            { breakpoint: 992, settings: { slidesToShow: 1 } },
+            { breakpoint: 576, settings: { slidesToShow: 1 } },
         ],
-    }));
+    };
+
+    const lightboxSlides = (photos || []).map(p => ({ src: p?.image }));
 
     return (
         <div>
@@ -97,84 +110,66 @@ const ProfileDetails = ({ match }) => {
                             Profile Details
                         </h3>
 
-                        {/* Photo Gallery */}
-                        {photos && photos.length > 0 && (
-                            <div className="profile-section mb-4">
-                                <div className="profile-section-title mb-3">
-                                    <i className="fas fa-images" style={{ color: 'var(--primary-color)' }}></i>
-                                    <span>Photos</span>
-                                </div>
-                                <div style={{ 
-                                    padding: '20px',
-                                    background: '#ffffff',
-                                    borderRadius: '12px',
-                                    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
-                                }}>
-                                    <PhotoAlbum
-                                        layout="rows"
-                                        photos={galleryPhotos}
-                                        targetRowHeight={200}
-                                        onClick={({ index }) => setIndex(index)}
-                                        renderPhoto={({ photo, wrapperStyle, imageProps }) => (
-                                            <div style={{ ...wrapperStyle, position: 'relative' }}>
-                                                <img
-                                                    {...imageProps}
-                                                    style={{
-                                                        ...imageProps.style,
-                                                        borderRadius: '8px',
-                                                        cursor: 'pointer',
-                                                        transition: 'transform 0.3s ease',
-                                                        '&:hover': {
-                                                            transform: 'scale(1.02)'
-                                                        }
-                                                    }}
-                                                />
-                                            </div>
-                                        )}
-                                    />
-                                    
-                                    <Lightbox
-                                        slides={galleryPhotos}
-                                        open={index >= 0}
-                                        index={index}
-                                        close={() => setIndex(-1)}
-                                        plugins={[Thumbnails, Zoom]}
-                                        thumbnails={{
-                                            position: "bottom",
-                                            width: 120,
-                                            height: 80,
-                                            border: 2,
-                                            borderRadius: 4,
-                                            padding: 4,
-                                        }}
-                                        zoom={{
-                                            maxZoomPixelRatio: 3,
-                                            scrollToZoom: true,
-                                        }}
-                                    />
-                                </div>
-                            </div>
-                        )}
+                        {isLoading ? (
+                            <ProfileDetailsSkeleton />
+                        ) : (
+                            <>
+                                {/* Photo Gallery - Compact Horizontal Carousel with Lightbox */}
+                                {photos && photos.length > 0 && (
+                                    <div className="profile-section mb-4">
+                                        <div className="profile-section-title mb-3">
+                                            <i className="fas fa-images" style={{ color: 'var(--primary-color)' }}></i>
+                                            <span>Photos</span>
+                                        </div>
+                                        <div style={{ padding: '10px 6px' }}>
+                                            <Slider {...sliderSettings} className="profile-photos-slider">
+                                                {photos.map((photo, idx) => (
+                                                    <div key={idx} className="slider-item">
+                                                        <img
+                                                            src={photo?.image}
+                                                            alt={`Photo ${idx + 1}`}
+                                                            className="slider-image"
+                                                            onClick={() => { setCurrentSlide(idx); setIsLightboxOpen(true); }}
+                                                            style={{ cursor: 'zoom-in' }}
+                                                        />
+                                                    </div>
+                                                ))}
+                                            </Slider>
+                                        </div>
 
-                        {/* Profile Sections */}
-                        <div className="profile-sections-container">
-                            <BasicInfoSection data={profileDetails} className="mb-2" />
-                            <ReligiousInfoSection data={profileDetails?.religous_data} className="mb-2" />
-                            <EducationInfoSection data={profileDetails?.education} className="mb-2" />
-                            <OccupationInfoSection data={profileDetails?.occupation} className="mb-2" />
-                            <FamilyInfoSection data={profileDetails?.family_details} className="mb-2" />
-                            <PartnerPreferencesSection data={profileDetails?.partner_preference} className="mb-2" />
-                            {profileDetails?.social_links && (
-                                <SocialAccounts
-                                    data={profileDetails?.social_links}
-                                    is_Locked={profileDetails?.is_locked_social_accounts}
-                                    hasSubmittedRequest={hasSubmittedRequest}
-                                    submittedRequest={submittedRequest}
-                                    handleSubmit={handleSubmitAccessRequest}
-                                    className=""
-                                />
-                            )}
-                        </div>
+                                        <Lightbox
+                                            open={isLightboxOpen}
+                                            close={() => setIsLightboxOpen(false)}
+                                            index={currentSlide}
+                                            slides={lightboxSlides}
+                                            plugins={[Thumbnails, Zoom]}
+                                            thumbnails={{ position: 'bottom' }}
+                                            zoom={{ maxZoomPixelRatio: 3, scrollToZoom: true }}
+                                        />
+                                    </div>
+                                )}
+
+                                {/* Profile Sections */}
+                                <div className="profile-sections-container">
+                                    <BasicInfoSection data={profileDetails} className="mb-2" />
+                                    <ReligiousInfoSection data={profileDetails?.religous_data} className="mb-2" />
+                                    <EducationInfoSection data={profileDetails?.education} className="mb-2" />
+                                    <OccupationInfoSection data={profileDetails?.occupation} className="mb-2" />
+                                    <FamilyInfoSection data={profileDetails?.family_details} className="mb-2" />
+                                    <PartnerPreferencesSection data={profileDetails?.partner_preference} className="mb-2" />
+                                    {profileDetails?.social_links && (
+                                        <SocialAccounts
+                                            data={profileDetails?.social_links}
+                                            is_Locked={profileDetails?.is_locked_social_accounts}
+                                            hasSubmittedRequest={hasSubmittedRequest}
+                                            submittedRequest={submittedRequest}
+                                            handleSubmit={handleSubmitAccessRequest}
+                                            className=""
+                                        />
+                                    )}
+                                </div>
+                            </>
+                        )}
                     </Col>
                     <Col md={3} className="ms-auto" style={{ backgroundColor: "#f4f4f4" }}>
                         <Sidebar />

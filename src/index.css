@@ -116,3 +116,110 @@ body {
 }
 /* Add this CSS to your ManageSocial.css or a separate CSS file */
 
+/* Compact Profile Photos Slider */
+.profile-photos-slider {
+  position: relative;
+}
+.profile-photos-slider .slider-item {
+  padding: 4px;
+  background-color: #f5f7fa;
+  border-radius: 10px;
+}
+.profile-photos-slider .slider-image {
+  width: 100%;
+  height: 380px; /* larger for clearer face */
+  object-fit: contain; /* fill while keeping aspect */
+  object-position: 50% 20%; /* bias crop upward to show faces */
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+@media (max-width: 576px) {
+  .profile-photos-slider .slider-image {
+    height: 260px; /* taller on mobile too */
+  }
+}
+
+/* Compact Manage Photos Slider */
+.manage-photos-slider .manage-slider-item {
+  padding: 4px;
+}
+.manage-slider-image-wrapper {
+  position: relative;
+  background-color: #f5f7fa;
+  border-radius: 10px;
+}
+.manage-slider-image {
+  width: 100%;
+  height: 340px; /* larger for clearer face */
+  object-fit: cover; /* fill while keeping aspect */
+  object-position: 50% 20%; /* bias crop upward to show faces */
+  border-radius: 10px;
+}
+.manage-slider-overlay {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  display: flex;
+  gap: 10px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 8px;
+  padding: 6px 10px;
+}
+.manage-add-tile {
+  height: 340px; /* match image height */
+  border: 2px dashed #cbd5e1;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  cursor: pointer;
+  background-color: #f5f7fa;
+}
+.manage-add-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e2e8f0;
+  color: #16a34a;
+  margin-bottom: 8px;
+}
+.manage-add-text {
+  font-size: 0.9rem;
+}
+@media (max-width: 576px) {
+  .manage-slider-image, .manage-add-tile { height: 260px; }
+}
+
+/* Skeleton Shimmer */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background-color: #eef1f5;
+  border-radius: 8px;
+  margin: 10px 0;
+  min-height: 16px;
+}
+.skeleton::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150px;
+  height: 100%;
+  width: 150px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent);
+  animation: shimmerMove 1.2s infinite;
+}
+.skeleton-rect { width: 100%; height: 200px; }
+.skeleton-title { width: 200px; height: 24px; }
+.skeleton-text { width: 100%; height: 14px; border-radius: 6px; }
+
+@keyframes shimmerMove {
+  0% { left: -150px; }
+  100% { left: 100%; }
+}
+

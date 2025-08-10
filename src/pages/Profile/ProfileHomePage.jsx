@@ -9,6 +9,7 @@ import Footer from '../../components/common/Footer';
 import callCommonInternalApiService from '../../services/callCommonInternalApiService';
 import CustomizedPagination from '../../components/common/CustomizedPagination';
 import { buildAdvancedQueryParams } from '../../components/common/CommonFunctions';
+import ProfileListSkeleton from '../../components/profiles/ProfileListSkeleton';
 
 
 const ProfileHomePage = () => {
@@ -16,6 +17,7 @@ const ProfileHomePage = () => {
   const userData = JSON.parse(localStorage.getItem('userData'));
   const [page, setPage] = useState(1);
   const [dataCount, setDataCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
   let itemsPerPage = 10;
   const totalPages = Math.ceil(dataCount / itemsPerPage);
 
@@ -35,6 +37,7 @@ const ProfileHomePage = () => {
 
   const getProfileData = async () => {
     try {
+      setIsLoading(true);
       let apiUrl = `profiles/${userData.profile_id}/matching_profiles/?page=${page}&limit=${itemsPerPage}&basic=true`
       const response = await callCommonInternalApiService(apiUrl, 'get');
 
@@ -47,11 +50,14 @@ const ProfileHomePage = () => {
     } catch (error) {
       toast.error("somthing went wrong!,try again..");
 
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleSearch = async (profile_id, filtered_data) => {
     try {
+      setIsLoading(true);
       let apiUrl = `profiles/`
       if (profile_id) {
         apiUrl += `search-by-id/?profile_id=` + profile_id
@@ -79,6 +85,8 @@ const ProfileHomePage = () => {
       console.log('t55');
       console.error('error:', error);
       toast.error(error[0])
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -88,7 +96,9 @@ const ProfileHomePage = () => {
       <div className="profile-page-container">
         <div className="profile-main-content">
           <div className="profile-content">
-            {profileData&&profileData.length > 0 ? (
+            {isLoading ? (
+              <ProfileListSkeleton count={itemsPerPage} />
+            ) : profileData&&profileData.length > 0 ? (
               <div>
                 <ProfileList profiles={profileData} />
                 <CustomizedPagination totalPages={totalPages} setPage={setPage} />

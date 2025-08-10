@@ -4,68 +4,84 @@ import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Row, Col, Image } from 'react-bootstrap';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import Lightbox from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
 
 const PhotosSection = ({ images,handleImageUpload,handleRemoveImage,handleUpdateImage,imagesId }) => {
     const fileInputs = useRef(Array(6).fill(null));
-
+    const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+    const [currentIndex, setCurrentIndex] = useState(0);
 
     const handleIconClick = (index) => {
-        // Trigger a click on the hidden file input element
         fileInputs.current[index].click();
-       
     };
-    
+
     const placeholders = Array(6).fill(null);
 
+    const sliderSettings = {
+        dots: true,
+        arrows: true,
+        infinite: false,
+        speed: 400,
+        autoplay: false,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        beforeChange: (_, next) => setCurrentIndex(next),
+        responsive: [
+            { breakpoint: 992, settings: { slidesToShow: 1 } },
+            { breakpoint: 576, settings: { slidesToShow: 1 } },
+        ],
+    };
+
+    const lightboxSlides = placeholders.map((_, idx) => ({ src: images[idx] || '' })).filter(s => s.src);
+
     return (
-        <div className="row">
-            {placeholders.map((_, index) => (
-                <Col md={4}>
-                    <Card key={index} className="m-2">
-                        <Card.Body>
-                            {images[index] ? (
-                                <Row className='manage-photos'>
-                                    <Col md={8}>
-                                        <Card.Img src={images[index]} alt={`Image ${index}`} />
-                                    </Col>
-                                    <Col md={4} className='text-center'>
-                                        <FontAwesomeIcon
-                                            icon={faEdit} // Edit icon
-                                            className='text-primary me-3'
-                                            onClick={() => handleIconClick(index)}
-                                            style={{ cursor: 'pointer' }}
+        <div className="manage-photos-slider">
+            <Slider {...sliderSettings}>
+                {placeholders.map((_, index) => (
+                    <div key={index} className="manage-slider-item">
+                        <Card className="m-1">
+                            <Card.Body className="p-2">
+                                {images[index] ? (
+                                    <div className='manage-slider-image-wrapper'>
+                                        <img
+                                            src={images[index]}
+                                            alt={`Image ${index}`}
+                                            className='manage-slider-image'
+                                            onClick={() => { setCurrentIndex(index); setIsLightboxOpen(true); }}
+                                            style={{ cursor: 'zoom-in' }}
                                         />
-                                         <input
-                                            type="file"
-                                            id={`image-edit-${index}`}
-                                            style={{ display: 'none' }}
-                                            ref={(input) => (fileInputs.current[index] = input)}
-                                            onChange={(event) => handleUpdateImage(event,index,imagesId[index])}
-                                        />
-                                        <FontAwesomeIcon
-                                            icon={faTrash}
-                                            className='text-danger'
-                                            onClick={() => handleRemoveImage(index,imagesId[index])}
-                                            style={{ cursor: 'pointer' }}
-                                        />
-                                    </Col>
-                                </Row>
-                            ) : (
-                                <Row className='manage-photos'>
-                                    <Col md={6}>
-                                        <Card.Img src={'https://shreedestinations.com/wp-content/uploads/2018/08/dummy450x450.jpg'} alt={`Image ${index}`} className='me-4' />
-                                    </Col>
-                                    <Col md={4}>
-                                        <div className='add-icon-wrapper'>
+                                        <div className='manage-slider-overlay'>
                                             <FontAwesomeIcon
-                                                icon={faPlus}
-                                                className='text-success fw-bold mt-2'
+                                                icon={faEdit}
+                                                className='text-primary me-3'
                                                 onClick={() => handleIconClick(index)}
                                                 style={{ cursor: 'pointer' }}
                                             />
+                                            <input
+                                                type="file"
+                                                id={`image-edit-${index}`}
+                                                style={{ display: 'none' }}
+                                                ref={(input) => (fileInputs.current[index] = input)}
+                                                onChange={(event) => handleUpdateImage(event,index,imagesId[index])}
+                                            />
+                                            <FontAwesomeIcon
+                                                icon={faTrash}
+                                                className='text-danger'
+                                                onClick={() => handleRemoveImage(index,imagesId[index])}
+                                                style={{ cursor: 'pointer' }}
+                                            />
                                         </div>
-
-                                        {/* Hidden file input */}
+                                    </div>
+                                ) : (
+                                    <div className='manage-add-tile' onClick={() => handleIconClick(index)}>
+                                        <div className='manage-add-icon'>
+                                            <FontAwesomeIcon icon={faPlus} />
+                                        </div>
+                                        <div className='manage-add-text'>Add photo</div>
                                         <input
                                             type="file"
                                             id={`image-upload-${index}`}
@@ -73,14 +89,20 @@ const PhotosSection = ({ images,handleImageUpload,handleRemoveImage,handleUpdate
                                             ref={(input) => (fileInputs.current[index] = input)}
                                             onChange={(event) => handleImageUpload(event, index)}
                                         />
-                                    </Col>
+                                    </div>
+                                )}
+                            </Card.Body>
+                        </Card>
+                    </div>
+                ))}
+            </Slider>
 
-                                </Row>
-                            )}
-                        </Card.Body>
-                    </Card>
-                </Col>
-            ))}
+            <Lightbox
+                open={isLightboxOpen}
+                close={() => setIsLightboxOpen(false)}
+                index={currentIndex}
+                slides={lightboxSlides}
+            />
         </div>
     );
 };
