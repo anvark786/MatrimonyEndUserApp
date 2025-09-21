@@ -105,7 +105,7 @@ const Header = () => {
                 Messages
               </Link>
               <Link 
-                className={`nav-link ${isActive('/upgrade') ? 'active' : ''}`} 
+                className={`nav-link ${isActive('/profile/subscription-plans') ? 'active' : ''}`} 
                 to="#"
                 onClick={() => setShowMobileMenu(false)}
               >
@@ -153,7 +153,7 @@ const Header = () => {
                       </Link>
                     </li>
                     <li>
-                      <Link to="#" onClick={() => setShowDropdown(false)}>
+                      <Link to="/profile/subscription-plans" onClick={() => setShowDropdown(false)}>
                         <FontAwesomeIcon icon={faCrown} />
                         Premium Features
                       </Link>
