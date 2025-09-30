@@ -18,6 +18,7 @@ import {
   faHeart,
   faUsers,
   faBell,
+  faComments,
 } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
@@ -125,6 +126,10 @@ const Sidebar = () => {
             <Link to="/profile/notifications" onClick={isMobile ? closeSidebar : undefined}>
               <FontAwesomeIcon icon={faBell} />
               <span>Notifications</span>
+            </Link>
+            <Link to="/messages" onClick={isMobile ? closeSidebar : undefined}>
+              <FontAwesomeIcon icon={faComments} />
+              <span>Messages</span>
             </Link>
           </div>
         </div>

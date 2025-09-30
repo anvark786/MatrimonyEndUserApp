@@ -11,7 +11,7 @@ import BasicInfoSection from '../../components/profiles/ProfileDetails/BasicInfo
 import { toast } from 'react-toastify';
 import profileUpdateService from '../../services/profileUpdateService';
 import socialService from '../../services/socialService';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Sidebar from '../../components/common/Sidebar';
 import Header from '../../components/common/Header';
 import ReligiousInfoSection from '../../components/profiles/ProfileDetails/ReligiousInfoSection';
@@ -20,19 +20,24 @@ import OccupationInfoSection from '../../components/profiles/ProfileDetails/Occu
 import FamilyInfoSection from '../../components/profiles/ProfileDetails/FamilyInfoSection';
 import PartnerPreferencesSection from '../../components/profiles/ProfileDetails/PartnerPreferencesSection';
 import SocialAccounts from '../../components/profiles/ProfileDetails/SocialAccounts';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import ProfileDetailsSkeleton from '../../components/profiles/ProfileDetails/ProfileDetailsSkeleton';
+import StartChatModal from '../../components/chat/StartChatModal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faComments, faHeart, faUser } from '@fortawesome/free-solid-svg-icons';
 
 const ProfileDetails = ({ match }) => {
     const [profileDetails, setProfileDetails] = useState({});
     const [photos, setPhotos] = useState([]);
     const { uuid } = useParams();
+    const navigate = useNavigate();
     const userData = JSON.parse(localStorage.getItem('userData'));
     const [hasSubmittedRequest, setHasSubmittedRequest] = useState(false);
     const [submittedRequest, setSubmittedRequest] = useState({});
     const [currentSlide, setCurrentSlide] = useState(0);
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const [showChatModal, setShowChatModal] = useState(false);
 
     useEffect(() => {
         getProfileDetails();
@@ -81,6 +86,26 @@ const ProfileDetails = ({ match }) => {
         }
     };
 
+    const handleStartChat = () => {
+        if (!userData.has_completed_signup) {
+            toast.error("Please complete your profile to start chatting");
+            return;
+        }
+        setShowChatModal(true);
+    };
+
+    const handleChatCreated = (chatRoom) => {
+        // Navigate to chat page with the new chat room
+        navigate(`/messages?room=${chatRoom.id}`);
+    };
+
+    const handleSendInterest = () => {
+        // TODO: Implement interest functionality
+        toast.info("Interest feature coming soon!");
+    };
+
+    const isOwnProfile = profileDetails?.user?.id === userData?.user_id;
+
     // Slider settings for compact horizontal gallery
     const sliderSettings = {
         dots: true,
@@ -106,14 +131,77 @@ const ProfileDetails = ({ match }) => {
             <Container fluid>
                 <Row>
                     <Col md={8} className="px-4 py-3">
-                        <h3 className='mb-4' style={{ color: 'var(--text-primary)', fontSize: '2rem', fontWeight: '700' }}>
-                            Profile Details
-                        </h3>
+                        <div className="d-flex justify-content-between align-items-center mb-4">
+                            <h3 className='mb-0' style={{ color: 'var(--text-primary)', fontSize: '2rem', fontWeight: '700' }}>
+                                Profile Details
+                            </h3>
+                            
+                            {/* Action Buttons - Only show if not own profile */}
+                            {!isOwnProfile && (
+                                <div className="profile-actions d-flex gap-2">
+                                    <Button 
+                                        variant="outline-primary" 
+                                        onClick={handleSendInterest}
+                                        className="d-flex align-items-center gap-2"
+                                    >
+                                        <FontAwesomeIcon icon={faHeart} />
+                                        <span className="d-none d-sm-inline">Send Interest</span>
+                                    </Button>
+                                    <Button 
+                                        variant="primary" 
+                                        onClick={handleStartChat}
+                                        className="d-flex align-items-center gap-2"
+                                    >
+                                        <FontAwesomeIcon icon={faComments} />
+                                        <span className="d-none d-sm-inline">Start Chat</span>
+                                    </Button>
+                                </div>
+                            )}
+                        </div>
 
                         {isLoading ? (
                             <ProfileDetailsSkeleton />
                         ) : (
                             <>
+                                {/* Profile Owner Info */}
+                                {!isOwnProfile && profileDetails && (
+                                    <div className="profile-owner-info mb-4 p-3 bg-light rounded">
+                                        <div className="d-flex align-items-center gap-3">
+                                            <div className="profile-avatar">
+                                                {photos && photos.length > 0 ? (
+                                                    <img 
+                                                        src={photos[0]?.image} 
+                                                        alt={profileDetails.first_name}
+                                                        style={{ 
+                                                            width: '60px', 
+                                                            height: '60px', 
+                                                            borderRadius: '50%', 
+                                                            objectFit: 'cover' 
+                                                        }}
+                                                    />
+                                                ) : (
+                                                    <div 
+                                                        style={{ 
+                                                            width: '60px', 
+                                                            height: '60px', 
+                                                            borderRadius: '50%',
+                                                            background: '#e9ecef',
+                                                            display: 'flex',
+                                                            alignItems: 'center',
+                                                            justifyContent: 'center'
+                                                        }}
+                                                    >
+                                                        <FontAwesomeIcon icon={faUser} size="lg" color="#6c757d" />
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <div>
+                                                <h5 className="mb-1">{profileDetails.first_name} {profileDetails.last_name}</h5>
+                                                <p className="mb-0 text-muted">{profileDetails.age} years • {profileDetails.location}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
                                 {/* Photo Gallery - Compact Horizontal Carousel with Lightbox */}
                                 {photos && photos.length > 0 && (
                                     <div className="profile-section mb-4">
@@ -176,6 +264,15 @@ const ProfileDetails = ({ match }) => {
                     </Col>
                 </Row>
             </Container>
+            
+            {/* Start Chat Modal */}
+            <StartChatModal
+                show={showChatModal}
+                onHide={() => setShowChatModal(false)}
+                targetUser={profileDetails?.user || profileDetails}
+                targetProfile={profileDetails}
+                onChatCreated={handleChatCreated}
+            />
         </div>
     );
 };

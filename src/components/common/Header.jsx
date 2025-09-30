@@ -98,7 +98,7 @@ const Header = () => {
               </Link>
               <Link 
                 className={`nav-link ${isActive('/messages') ? 'active' : ''}`} 
-                to="#"
+                to="/messages"
                 onClick={() => setShowMobileMenu(false)}
               >
                 <FontAwesomeIcon icon={faComments} className="nav-icon" />

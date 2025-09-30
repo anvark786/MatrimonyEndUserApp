@@ -1,0 +1,87 @@
+/* Chat Page Styles */
+.chat-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.chat-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #f8f9fa;
+}
+
+.chat-container .container-fluid {
+  flex: 1;
+  padding: 0;
+}
+
+.chat-container .row {
+  margin: 0;
+  height: calc(100vh - 60px - 60px); /* Subtract header and footer height */
+  min-height: 600px;
+}
+
+.chat-list-column,
+.chat-interface-column {
+  padding: 0;
+  height: 100%;
+}
+
+.chat-list-column {
+  border-right: 1px solid #e0e0e0;
+  background: white;
+}
+
+.chat-interface-column {
+  background: white;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .chat-container .row {
+    height: calc(100vh - 60px); /* Only subtract header on mobile */
+    min-height: calc(100vh - 60px);
+  }
+  
+  .chat-list-column,
+  .chat-interface-column {
+    height: 100%;
+  }
+  
+  .chat-list-column.d-none,
+  .chat-interface-column.d-none {
+    display: none !important;
+  }
+}
+
+/* Tablet responsiveness */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .chat-container .row {
+    height: calc(100vh - 80px - 60px);
+  }
+}
+
+/* Desktop optimization */
+@media (min-width: 1025px) {
+  .chat-container .row {
+    height: calc(100vh - 80px - 80px);
+  }
+  
+  .chat-list-column {
+    max-width: 350px;
+  }
+}
+
+/* Remove bootstrap gutters */
+.no-gutters {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.no-gutters > .col,
+.no-gutters > [class*="col-"] {
+  padding-right: 0;
+  padding-left: 0;
+}

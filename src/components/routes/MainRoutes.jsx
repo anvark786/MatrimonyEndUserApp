@@ -24,6 +24,7 @@ import EditPassword from '../../pages/EditPassword/EditPassword';
 import HomePage from '../../pages/HomePage';
 import ForgotPassword from '../../pages/ForgotPassword';
 import SubscriptionPlans from '../../pages/Profile/SubscriptionPlans/SubscriptionPlans';
+import ChatPage from '../../pages/Chat/ChatPage';
 
 const MainRoutes = () => {
   const ProtectedProfilePage = withCompleteAuth(ProfileHomePage)
@@ -41,6 +42,7 @@ const MainRoutes = () => {
   const ProtectedManageHideProfile= withCompleteAuth(ManageHideProfile)
   const ProtectedEditPassword = withAuth(EditPassword)
   const ProtectedSubscriptionPlans = withCompleteAuth(SubscriptionPlans)
+  const ProtectedChatPage = withCompleteAuth(ChatPage)
 
   
   return (
@@ -68,6 +70,7 @@ const MainRoutes = () => {
       <Route exact path="/profile/hide-profile" element={<ProtectedManageHideProfile/>} />
       <Route exact path="/profile/edit-password" element={<ProtectedEditPassword />} />
       <Route exact path="profile/subscription-plans" element={<ProtectedSubscriptionPlans />} />
+      <Route exact path="/messages" element={<ProtectedChatPage />} />
 
     </Routes>
   );
